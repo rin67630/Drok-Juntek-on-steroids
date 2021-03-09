@@ -5,8 +5,8 @@ Juntek and Drok (maybe others) sell some interesting cheap programmable buck con
 - DPS3806         (60V/6A boost/buck converter) https://www.aliexpress.com/item/1005001591485527.html
 - Buck3603        (36V/3A buck converter) https://www.aliexpress.com/item/32872687512.html
 - Drok low Power  (60V/8A buck converter) https://www.aliexpress.com/item/32862110549.html
-- Drok high power (80V/12A buck converter) https://www.aliexpress.com/item/32863179021.html 
-(links only given to identify the modules, you are encouraged to procure the devices from your favourite source)  
+- Drok high power (80V/12A buck converter) https://www.aliexpress.com/item/32863179021.html  
+*(links only given to identify the modules, you are encouraged to procure the devices from your favourite source)  
 
 They are all controlled by a pluggable control board, which stages a STM microcontroller and a 4x7 digit LED display.  
 The 4 push-buttons to control the operations are clumsy and the seven segment display is everything but comfortable.  
@@ -19,10 +19,10 @@ On the right side, the connector provides GND and 5V at ~200mA
 My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
 give full internet control and provide tons of features...
 
-I used a Wemos ESP32 with an integrated 128*64 OLED display plugged onto a 6*8cm prototyping board as an adapter.
+I used a Wemos ESP32 with an integrated 128x64pixel OLED display plugged onto a 6x8cm prototyping board as an adapter.
 ![image](https://cjoint.com/doc/21_03/KChtpxwcM50_ESP32-on-Juntek.jpg)
 
-OK it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.
+OK, it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.
 
 ##The fun can begin!
 Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
@@ -59,6 +59,6 @@ Maybe other useful ideas that you might have...
 
 Last but not least everything is neatly self powered, and integrated on one single board, that plugs instead of the original controller board.
 If you wanted to revert to the original functionality, just replug the manufacturer's control board.
-There is absolutely no cable mess and even a new program can be updated over the air.
+There is absolutely no cable mess and even a new program can be updated over the air using a beginner's easy Arduino IDE.
 You need no additional computer to manage the dashboards, everything is done in the cloud.
 The only thing you need, is a Wifi connection.
