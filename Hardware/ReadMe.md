@@ -1,6 +1,7 @@
 This folder contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.  
-The design uses standard buck converters, ESP32 modules, simple prototyping boards and a few resistors/condensators.
-The adapter boards will be slightly different for DRok and Juntek since the pinout varies.
+The design uses standard buck converters, an ESP32 module, simple prototyping boards and a few resistors/condensators.
+The adapter boards will be slightly different for Drok and Juntek since the pinout varies.
+Other ESP32 modules can be used, possibly a TTGO version with a nicer color display will be provided.
 
 Further variants, _ will be described in detail later_ just to give an outlook of the conceptual flexibility.  
 The ESP32's ADC are really bad and the simple solution with a few resistors/condensators works, but are stained with +-50mV and +- 50mA error range.
