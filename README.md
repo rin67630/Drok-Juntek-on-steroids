@@ -24,10 +24,10 @@ I used a Wemos ESP32 with an integrated 128x64pixel OLED display plugged onto a 
 
 OK, it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.
 
-##The fun can begin!
+## The fun can begin!
 Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
 
-###Power supply mode
+### Power supply mode
 The power supply is controllable by:
 a) USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.
 b) from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.
@@ -41,21 +41,21 @@ Over the serial port and thinger.io, many reports will be made available:
 
 Beside the usual constant voltage and constant current set points, I will provide many interesting things that are not common, but very useful:
 
-###Battery Charger mode:
+### Battery Charger mode:
 - charging profiles for many battery chemistries
 - evaluation of the battery's internal resistance
 - evaluation of the battery' capacity
 - charging time series plots
 
-###Power Source emulation:
+### Power Source emulation:
 - add a programmable internal resistance
 - run a constant power mode
 - emulation of solar panel / wind turbine incuding "pseudo-daily" gaussian cycles (accelerated 60x) to test solar chargers
 
-###Programmable Load (for the Juntek buck-boost version)
+### Programmable Load (for the Juntek buck-boost version)
 - together with a flooder to dissipate the energy, the buck-boost converter can be used to discharge batteries and transfer energy from one battery to another one.
 
-Maybe other useful ideas that you might have...
+### Maybe other useful ideas that you might have...
 
 Last but not least everything is neatly self powered, and integrated on one single board, that plugs instead of the original controller board.
 If you wanted to revert to the original functionality, just replug the manufacturer's control board.
