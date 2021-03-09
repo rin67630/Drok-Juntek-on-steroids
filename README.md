@@ -36,8 +36,10 @@ This is just an example, much more will come:
 - remote screen replication  
 
 Over the serial port and thinger.io, many reports will be made available:
--energy report by the second, the minute, the hour.
--Ah, Wh Joule/Coulomb reports by the minutes, the hour, the day.
+- Energy report by the second, the minute, the hour.
+- Ah, Wh Joule/Coulomb reports by the minutes, the hour, the day.
+- Events of the charging process
+- ...
 
 Beside the usual constant voltage and constant current set points, I will provide many interesting things that are not common, but very useful:
 
