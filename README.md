@@ -28,12 +28,12 @@ OK, it was not straight forward to get the crappy ADCs of the ESP32 to work corr
 Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
 
 ### Power supply mode
-The power supply is controllable by:
-a) USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.
-b) from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.
-This is just an example, much more will come:
-c) a IR remote control.
-d) remote screen replication
+The power supply is controllable by:  
+- USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.  
+- from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.  
+This is just an example, much more will come:  
+- a IR remote control.  
+- remote screen replication  
 
 Over the serial port and thinger.io, many reports will be made available:
 -energy report by the second, the minute, the hour.
