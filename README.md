@@ -20,7 +20,7 @@ My idea was to get rid of the original control module, and to replace it by an E
 give full internet control and provide tons of features...
 
 I used a Wemos ESP32 with an integrated 128x64pixel OLED display plugged onto a 6x8cm prototyping board as an adapter.
-![image](https://cjoint.com/doc/21_03/KChtpxwcM50_ESP32-on-Juntek.jpg)
+![image](https://user-images.githubusercontent.com/14197155/110494163-9af3a880-80f3-11eb-96a9-72d462eb322b.png)
 
 OK, it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.
 
