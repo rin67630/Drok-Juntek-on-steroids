@@ -50,9 +50,9 @@ Beside the usual constant voltage and constant current set points, I will provid
 ###Power Source emulation:
 - add a programmable internal resistance
 - run a constant power mode
-- emulation of solar panel / wind turbine incuding "daily" gaussian cycles (accelerated 60x)
+- emulation of solar panel / wind turbine incuding "pseudo-daily" gaussian cycles (accelerated 60x) to test solar chargers
 
-Programmable Load (for the Juntek buck-boost version
+###Programmable Load (for the Juntek buck-boost version)
 - together with a flooder to dissipate the energy, the buck-boost converter can be used to discharge batteries and transfer energy from one battery to another one.
 
 Maybe other useful ideas that you might have...
