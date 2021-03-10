@@ -1,10 +1,8 @@
 
 This folder will contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
-
 The design uses standard buck converters, an ESP32 module, simple prototyping boards and a few resistors/condensators. 
 
- 
-## Bill of materials
+ ## Bill of materials
 
 - Juntek DSP 3606
 - Wemos ESP32 OLED board
@@ -15,6 +13,7 @@ The design uses standard buck converters, an ESP32 module, simple prototyping bo
 - 2 x 68 k resistors
 - 3 x 5.6 M resistors
 - 1 x 220 resistor
+- 1 x 3.9 M (behind the Juntek module to sense Vin)
 - 4 x 330nF tantal capacitors
 - 1 x 470uF 16V chem capacitor
 - 1 x 47uF 16V chem capacitor
