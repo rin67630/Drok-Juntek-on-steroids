@@ -12,11 +12,13 @@ The design uses standard buck converters, an ESP32 module, simple prototyping bo
 - 3 x 180 k resistors
 - 2 x 68 k resistors
 - 3 x 5.6 M resistors
-- 1 x 220 resistor
+- 1 x 220 resistor **
 - 1 x 3.9 M (behind the Juntek module to sense Vin)
-- 4 x 330nF tantal capacitors
-- 1 x 470uF 16V chem capacitor
-- 1 x 47uF 16V chem capacitor
+- 4 x 330nF tantal capacitors **
+- 1 x 470uF 16V chem capacitor **
+- 1 x 47uF 16V chem capacitor **
+
+The components marked (**) are not critical +- 50% are possible.
 
 ## Proto wiring
 ![image](https://user-images.githubusercontent.com/14197155/110693369-a1fbe300-81e7-11eb-8d25-8bba9f443619.png)
