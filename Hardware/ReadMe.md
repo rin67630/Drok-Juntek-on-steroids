@@ -26,6 +26,8 @@ The design uses standard buck converters, an ESP32 module, simple prototyping bo
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
 
 The adapter boards will be slightly different for Drok and Juntek since the pinout varies.  
+*that variants to come soon, did not test yet*
+
 Other ESP32 modules can be used, possibly a TTGO version with a nicer color display will be provided.  
 
 Further variants, _ will be described in detail later_ just to give an outlook of the conceptual flexibility.  
