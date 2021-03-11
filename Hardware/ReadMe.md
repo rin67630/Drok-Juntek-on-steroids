@@ -21,7 +21,7 @@ The design uses standard buck converters, an ESP32 module, simple prototyping bo
 The components marked (**) are not critical +- 50% are possible.
 
 ## Proto wiring
-![image](https://user-images.githubusercontent.com/14197155/110693369-a1fbe300-81e7-11eb-8d25-8bba9f443619.png)
+![image](https://user-images.githubusercontent.com/14197155/110778946-4707d180-8263-11eb-9127-302e573ae2ff.png)  
 
 ## Schematic diagram
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
