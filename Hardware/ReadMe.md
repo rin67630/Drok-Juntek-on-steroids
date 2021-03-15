@@ -24,6 +24,9 @@ The components marked (**) are not critical +- 50% are possible.
 ![image](https://user-images.githubusercontent.com/14197155/111206570-d34e2780-85c8-11eb-8fb4-a482fadf0cb9.png) 
 ![image](https://user-images.githubusercontent.com/14197155/111217876-59bd3600-85d6-11eb-8595-dd1af2165e28.png)
 
+(the PCB layout is simple, even single layer, but i never made a Gerber file, if someone would like to contribute...)   
+
+
 ## Schematic diagram
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
 
