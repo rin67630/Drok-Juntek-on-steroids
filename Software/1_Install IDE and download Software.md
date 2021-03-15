@@ -25,7 +25,7 @@ If later you just need to update some tabs individually, you just can copy the c
 Before compiling, replace [Your User Arduino Folder]\libraries\TFT_eSPI\User_Setup.h by the customized file attached.
 
 ## Configuration instructions
-https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Software/Configuration%20Instructions.md
+https://github.com/rin67630/Soft-Power-MPPT//blob/main/Software/Configuration%20Instructions.md
 
 ## Dashborad configuration instructions
-https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Software/Starting%20at%20Thinger.io.md
+https://github.com/rin67630/Soft-Power-MPPT//blob/main/Software/Starting%20at%20Thinger.io.md
