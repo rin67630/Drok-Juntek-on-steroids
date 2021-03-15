@@ -19,8 +19,8 @@ On the right side, the connector provides GND and 5V at ~200mA
 My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
 give full internet control and provide tons of features...
 
-I used a Wemos ESP32 with an integrated 128x64pixel OLED display plugged onto a 6x8cm prototyping board as an adapter.
-![image](https://user-images.githubusercontent.com/14197155/110494163-9af3a880-80f3-11eb-96a9-72d462eb322b.png)
+I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.
+![image](https://user-images.githubusercontent.com/14197155/111213918-94709f80-85d1-11eb-9671-7cfcf33bd9aa.png)
 
 OK, it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.
 
