@@ -1,6 +1,6 @@
 void setup()
 {
- 
+
   // Serial initialisation
   Serial.begin (SERIAL_SPEED); // On USB port
   Serial.setDebugOutput(true);
@@ -10,21 +10,33 @@ void setup()
   // Settings for ADC
   analogSetWidth(11);               // 11Bit resolution
   analogSetAttenuation(ADC_0db);    // 0=0db (0..1V) 1= 2,5dB; 2=-6dB (0..2V); 3=-11dB  0.2..2.6V ~linear
-  //adc1_get_raw(ADC1_CHANNEL_0);
+
 
 
   // Settings for PWM
-  ledcSetup(0, 2000, 11);             // 11 bit resolution@ 2Khz
-  ledcSetup(3, 2000, 11);             // 11 bit resolution@ 2Khz
-  ledcAttachPin(PWM0, 0);
-  ledcAttachPin(PWM3, 3);
+  ledcSetup(0, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Voltage
+  ledcSetup(3, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Current
+  ledcSetup(14, 2000, 11);            // 11 bit resolution@ 2Khz  PWM for Brightness
+  ledcAttachPin(PWM_V, 0);
+  ledcAttachPin(PWM_I, 3);
+  ledcAttachPin(TFT_BL, 14);
   //ledcWrite(channel, dutycycle);
 
-  
+
   Console4.printf("\nESP-Karajan at work,Serial @ %u Baud\nTrying to connect\n\n", SERIAL_SPEED);
 
+#ifdef BOARD_IS_TTGO
+  tft.init();
+  tft.setRotation(1);
+  tft.fillScreen(TFT_BLACK);
+  tft.setTextSize(1);
+  tft.setTextColor(TFT_WHITE);
+  tft.setCursor(0, 0);
+  setBrightness (BRIGHTNESS);    // Not part of the tft lib. Function is retrofitted in b_Functions
+#endif
 
-#ifdef DISPLAY_IS_OLED128x64
+
+#ifdef BOARD_IS_WEMOS
   // Initialising the UI will init the display too.
   pinMode(16, OUTPUT);
   pinMode(25, OUTPUT);
@@ -52,7 +64,7 @@ void setup()
   WiFi.mode(WIFI_STA);
 
   getWiFi();
-  
+
   delay(100);
 
   if (WiFi.status() == WL_CONNECTED)
@@ -94,9 +106,9 @@ void setup()
     });
     ArduinoOTA.setHostname(DEVICE_NAME);
     ArduinoOTA.begin();
-//    Console4.printf("OTA Ready\n MAC address: %s\nHostname: %s \n", WiFi.macAddress().c_str(), WiFi.hostname().c_str());
+    //    Console4.printf("OTA Ready\n MAC address: %s\nHostname: %s \n", WiFi.macAddress().c_str(), WiFi.hostname().c_str());
 
-#ifdef DISPLAY_IS_OLED128x64
+#ifdef BOARD_IS_WEMOS
     sprintf(charbuff, "Connected!"); display.drawString(60, 24, charbuff);
     sprintf(charbuff, "IP= %03d . %03d",  ip[2], ip[3]); display.drawString(0, 36, charbuff);
     display.display();
@@ -112,21 +124,34 @@ void setup()
     // https://docs.thinger.io/coding#read-multiple-data
     // it is a bit confusing, but Thinger code placed in setup will be exceuted **periodically when required by the dashboard.
 
-    thing["menu"] << [](pson & in) {
+
+    // Thing control processing
+ 
+
+    thing["menu"] << [](pson & in)
+    {
       displayPage    = in["displayPage"];
       displaySubPage = in["displaySubPage"];
       serialPage     = in["serialPage"];
     };
 
+    thing["button_z"] << [](pson & in) {
+      if (in.is_empty())
+      {
+        yield();
+      } else {
+        inbyte = 'z';
+      }
+    };
+    // Setpoint processing: Thinger input is currently only integer, so slider value is * 1000 and ESP processing makes a float out of it.
     thing["scv"]  = [](pson & in, pson & out)
     {
       if (in.is_empty())
       {
-        in = dashboard.Vset;
+        in = dashboard.Vset * 1000;
       } else {
-        dashboard.Vset = in;
+        dashboard.Vset = float(in) / 1000;
       }
-      dashboard.Vset = float(in) / 1000;
       out = dashboard.Vset;
     };
 
@@ -134,13 +159,12 @@ void setup()
     {
       if (in.is_empty())
       {
-        in = dashboard.Iset;
+        in = dashboard.Iset * 1000;
       } else {
-        dashboard.Iset = in;
+        dashboard.Iset = float(in) / 1000;
       }
-      dashboard.Iset = float(in) / 1000;
       out = dashboard.Iset;
-    };    
+    };
 
     thing["measure"] >> [](pson & out)
     {
@@ -148,13 +172,21 @@ void setup()
       out["Iout"]            = dashboard.Iout ;
       out["Wout"]            = dashboard.Wout ;
       out["Ahout"]           = dashboard.Ahout ;
-      out["Whpan"]           = dashboard.Whout ;
+      out["Whout"]           = dashboard.Whout ;
       out["Vin"]             = dashboard.Vin ;
       out["Iin"]             = dashboard.Iin ;
       out["Iout"]            = dashboard.Iout ;
       out["Vset"]            = dashboard.Vset ;
       out["Iset"]            = dashboard.Iset ;
+      out["Vhout"]           = dashboard.Vout - persistance.initial_voltage;
     };
+
+    thing["status"] >> [](pson & out)
+    {
+      out["Runtime"]            = Runtime ;
+      out["Message"]            = Message ;
+    };
+
 
     thing["HOUR"] >> [](pson & out)
     {
@@ -162,7 +194,7 @@ void setup()
       out["Iout"]             = dashboard.Iout ;
       out["Wout"]             = dashboard.Wout ;
       out["Ahout"]            = dashboard.Ahout ;
-      out["Whpan"]            = dashboard.Whout ;
+      out["Whout"]            = dashboard.Whout ;
       out["Vin"]              = dashboard.Vin ;
       out["Iin"]              = dashboard.Iin ;
       out["Iout"]            = dashboard.Iout ;
@@ -176,7 +208,7 @@ void setup()
       out["Iout"]             = dashboard.Iout ;
       out["Wout"]             = dashboard.Wout ;
       out["Ahout"]            = dashboard.Ahout ;
-      out["Whpan"]            = dashboard.Whout ;
+      out["Whout"]            = dashboard.Whout ;
       out["Vin"]              = dashboard.Vin ;
       out["Iin"]              = dashboard.Iin ;
       out["Iout"]            = dashboard.Iout ;
@@ -184,10 +216,17 @@ void setup()
       out["Iset"]            = dashboard.Iset ;
     };
 
+    pson persistances;// Retrieve Persistance values
+    thing.get_property("persistances", persistances);
+    persistance.Ahout = persistances["Ah/hour"];
+    persistance.Whout = persistances["Wh/hour"];
+    persistance.Runseconds = persistances["Runseconds"];
+    persistance.initial_voltage = persistances["InitialVoltage"];
+
     //Communication with Thinger.io
     thing.handle();
     delay(1000); // Wait for contact to happen.
-    // Retrieve Persistance values
+    
 #endif
 
   }
@@ -202,12 +241,26 @@ void setup()
 
   // Initialisations.
 
-  serialPage = '0';           // default reporting page AK Modulbus
+  /*
+    // Persistance over Structure and memcpy.
+    EEPROM.commit();
+  */
 
-  dashboard.Vset = 14.4;
-  dashboard.Iset = 0.7;
-  CVinj = 673;  // =~14.4V
-  CCinj = 185;  // =~ 0.5A
-  lastA0 = lastA3 = 500;
+#ifndef THINGER
+  // read/write Persistance from EEPROM (Adress = 100...)
+  for ( int i = 0; i < sizeof(persistance); ++i ) persistance_punning[i] = EEPROM.read ( i + 100 );
+
+  memcpy(&persistance, persistance_punning, sizeof(persistance));
+  //  EEPROM.write ( i + 100,  persistance_punning[i] );
+#endif
+
+serialPage = '0';           // default reporting page 
+
+  if (dashboard.Vset == 0)   // still uninitialized, loading defaults
+  {
+    dashboard.Vset = 14.4;
+    dashboard.Iset = 0.7;
+    lastADC_V = lastADC_I = 500;
+  }
 }
 //end Setup
