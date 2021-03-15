@@ -1,11 +1,11 @@
 
 This folder will contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
-The design uses standard buck converters, an ESP32 module, simple prototyping boards and a few resistors/condensators. 
+The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators. 
 
  ## Bill of materials
 
 - Juntek DSP 3606
-- Wemos ESP32 OLED board
+- TTGO ESP32 TFT board
 - 4 x 6 cm prototyping board
 - pin male / female pin headers
 - 3 x 100 k resistors
@@ -21,7 +21,7 @@ The design uses standard buck converters, an ESP32 module, simple prototyping bo
 The components marked (**) are not critical +- 50% are possible.
 
 ## Proto wiring
-![image](https://user-images.githubusercontent.com/14197155/110778946-4707d180-8263-11eb-9127-302e573ae2ff.png)  
+![image](https://user-images.githubusercontent.com/14197155/111206570-d34e2780-85c8-11eb-8fb4-a482fadf0cb9.png) 
 
 ## Schematic diagram
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
@@ -29,9 +29,7 @@ https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic
 The adapter boards will be slightly different for Drok and Juntek since the pinout varies.  
 *that variants to come soon, did not test yet*
 
-Other ESP32 modules can be used, possibly a TTGO version with a nicer color display will be provided.  
-
-Further variants, _ will be described in detail later_ just to give an outlook of the conceptual flexibility.  
+Other ESP32 modules can be used, a variant with a BW OLED module and a variant with a HELTEC OLED + LoRa module are  planned, just to give an outlook of the conceptual flexibility.  
 The ESP32's ADC are really bad and the simple solution with a few resistors/condensators works, but are stained with +-50mV and +- 50mA error range.
 A more precise version with a separate ADC will be provided, requiring however mor components.
 
