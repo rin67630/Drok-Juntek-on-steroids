@@ -32,7 +32,7 @@ The power supply is controllable by:
 - USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.  
 - from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.  
 This is just an example, much more will come:  
-![image](https://user-images.githubusercontent.com/14197155/110838468-c5379880-82a2-11eb-934f-319f042d74f5.png)   
+![image](https://user-images.githubusercontent.com/14197155/111214263-09dc7000-85d2-11eb-9934-2d00401c982c.png)
 - a IR remote control.  
 - remote screen replication  
 
