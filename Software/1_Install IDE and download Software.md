@@ -22,6 +22,8 @@ You will now find the project in File/Sketchbook/SoftPowerMPPT and after startin
 
 If later you just need to update some tabs individually, you just can copy the content directly into the Arduino IDE.
 
+Before compiling, replace [Your User Arduino Folder]\libraries\TFT_eSPI\User_Setup.h by the customized file attached.
+
 ## Configuration instructions
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Software/Configuration%20Instructions.md
 
