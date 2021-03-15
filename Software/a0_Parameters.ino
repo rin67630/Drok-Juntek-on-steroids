@@ -23,21 +23,28 @@
 #define DAYLIGHT_OFFSET_SEC 60 * DST_MN // Do not change here...
 
 // Buck converter control/measures conversions.
-#define ADC0V        18    //ADC value @0V
-#define VOLT_1500 27500    //millivolts @ ADC=1500
-#define PWM0V        18    //PWM value @0V
-#define PWM_1500   1367    //PWM value @VOLT_1500
+#define ADC0V        13      //ADC value @0V
+#define VOUT_1500    26620   //millivolts @ ADC=1500
+#define VIN_1500     13800   //millivolts @ ADC=1500
+#define PWM_VV       32      //PWM value @0V
+#define PWM_1500     1331    //PWM value @VOUT_1500
 
-#define ADC0A    45        //ADC value @0A
-#define AMP_MAX  6500      //Current@ ADC=2047
-#define PWM0A    63        //PWM value @0V
-#define PWMAMAX  1780
-//PWM value @AMP_MAX
+#define ADC0A        38       //ADC value @0A
+#define AMP_MAX      6500     //Current@ ADC=1500
+#define PWM_VA       50       //PWM value @0V
+#define PWMAMAX      1780     //PWM value @AMP_MAX
 
+#define BOARD_IS_TTGO
 #define DISPLAY_REVERSED
-#define DISPLAY_IS_OLED128x64
+#define BRIGHTNESS 2047       // PWM value for default brightness 
+
+//  ***Communication options*** (For geeks only, else leave as it is)
 #define THINGER
 #define SERIAL_SPEED            115200 //9600  115200 230400
 
 #define SLEEP_US  1000000
-//#define _DEBUG_          // debug information over Thinger connection
+//#define _DEBUG_             // debug information over Thinger connection
+//#define UDP_MASTER          // If this is the  master of a slave ESP
+//#define UDP_SLAVE             // If this is the  slave of a master ESP
+#define DATA_TARGET "192.168.188.73"  // IP to forward data
+#define UDP_PORT   4214       // Ports to forward/receive data
