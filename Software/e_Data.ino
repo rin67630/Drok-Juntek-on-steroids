@@ -1,30 +1,38 @@
 void data125mSRun()
 {
-
+#if not defined (UDP_SLAVE)
   // === ( Measures)  ====
 
-
-  A0Raw = A3Raw = 0;
-  for  (byte n = 0; n < 5; n++)
+  ADC_VRaw = ADC_IRaw = ADC_PRaw =0;
+  for  (byte n = 0; n < 5; n++)   // Vout measure
   {
-    int m = analogRead(A0);
-    A0Raw += constrain( m, lastA0 - 3, lastA0 + 3); // eliminate spikes
+    int m = analogRead(ADC_V);
+    ADC_VRaw += constrain( m, lastADC_V - 2, lastADC_V + 2); // eliminate spikes
     delay (2);
   }
-  A0Raw = A0Raw / 5;
-  lastA0 = A0Raw;
-  dashboard.Vout +=  (adc2volt(A0Raw) - dashboard.Vout) / 8 ;  // 1rst order low pass filter
+  ADC_VRaw = ADC_VRaw / 5;
+  lastADC_V = ADC_VRaw;
+  dashboard.Vout +=  (adc2vout(ADC_VRaw) - dashboard.Vout) / 8 ;  // 1rst order low pass filter
 
-
-  for  (byte n = 0; n < 5; n++)
+  for  (byte n = 0; n < 5; n++)   // Iout measure
   {
-    int m = analogRead(A3);
-    A3Raw += constrain( m, lastA3 - 3, lastA3 + 3); // eliminate spikes
+    int m = analogRead(ADC_I);
+    ADC_IRaw += constrain( m, lastADC_I - 3, lastADC_I + 2); // eliminate spikes
     delay (2);
   }
-  A3Raw = A3Raw / 5;
-  lastA3 = A3Raw;
-  dashboard.Iout +=  (adc2amp(A3Raw) - dashboard.Iout) / 8 ;   // 1rst order low pass filter
+  ADC_IRaw = ADC_IRaw / 5;
+  lastADC_I = ADC_IRaw;
+  dashboard.Iout +=  (adc2amp(ADC_IRaw) - dashboard.Iout) / 8 ;   // 1rst order low pass filter
+
+    for  (byte n = 0; n < 5; n++)   // Vin measure
+  {
+    int m = analogRead(ADC_P);
+    ADC_PRaw += constrain( m, lastADC_P - 2, lastADC_P + 2); // eliminate spikes
+    delay (2);
+  }
+  ADC_PRaw = ADC_PRaw / 5;
+  lastADC_P = ADC_PRaw;
+  dashboard.Vin +=  (adc2vin(ADC_PRaw) - dashboard.Vin) / 8 ;  // 1rst order low pass filter
 
 
   // === ( Actions)  ====
@@ -32,15 +40,42 @@ void data125mSRun()
   CCinj = amp2pwm(dashboard.Iset);
   ledcWrite(0, CVinj);
   ledcWrite(3, CCinj);
-
+#endif
 } // end 125msRun
 
 void data1SRun()
 {
+
+  // === (Getting measurment values from another ESP over UDP
+#if defined (UDP_SLAVE)
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    // I am using a quick and dirty method called 'type punning' copying the memory block of a structure into an array of chars,
+    // transmitting this array, and copying back the memory block of the array into the same structure on the other side.
+    // I dont use any header info, only the difference of size permits to assign the received packets to sound or dashboard.
+    // it is quick and damn efficient, but NOT portable and YOU must take care to have the same structures on both systems
+    // and different sizes for Battery and Sound...
+
+    int packetSize = UDP.parsePacket();
+    Console1.printf("Rxbytes:%06i Dashboard:%06i \n", packetSize, sizeof(dashboard));
+    if (packetSize == sizeof(dashboard))
+    {
+      UDP.read(dashboard_punning, UDP_TX_PACKET_MAX_SIZE);
+      memcpy(&dashboard, dashboard_punning, sizeof(dashboard));
+      delay(5);
+
+    }
+  }
+#endif
+  
   dashboard.Wout = dashboard.Vout * dashboard.Iout;
-  persistance.Runtime ++;
-  RunHour = persistance.Runtime / 3600;
-  RunMin = persistance.Runtime / 60 - 60 * RunHour;
+  persistance.Runseconds ++;
+  RunHour = persistance.Runseconds / 3600;
+  RunMin = persistance.Runseconds / 60 - 60 * RunHour;
+  sprintf(charbuff, " %02ih%02i ", RunHour, RunMin); Runtime = charbuff;
+  persistance.Ahout = CycleIInt / 3600;
+  persistance.Whout = CycleWInt / 3600;
+  
 
   currentInt += dashboard.Iout;
   nCurrent ++;
@@ -49,6 +84,11 @@ void data1SRun()
   CycleIInt += dashboard.Iout;
   CycleWInt += dashboard.Wout;
   nCycle ++;
+
+  if (DayExpiring)
+  {
+
+  }
 
   if (HourExpiring)
   {
