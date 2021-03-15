@@ -8,7 +8,8 @@ You need a few libraries to run Drok-Juntek-on-steroids:
 Start the library manager: Tools/Manage Libraries...  
 You need  
 - ArduinoJson by Benoit Blanchon
-- ESP32...OLED driver, by Thingpulse and Fabrice Weinberg
+- TFT_eSPI.h from the Arduino library repository or, for the OLED version ESP32...OLED driver, by Thingpulse and Fabrice Weinberg
+
 - thinger.io by Alvaro Luis Bustamente
 The other libraries should be already present.
 
