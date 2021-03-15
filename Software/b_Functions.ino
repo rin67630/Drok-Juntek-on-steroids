@@ -3,8 +3,22 @@
                          (uint16_t)((uint16_t)millis() - _lasttime) >= (t);\
                          _lasttime += (t))
 
+// Instanciations
+
+WiFiUDP UDP; // Creation of wifi Udp instance
+
 ThingerESP32 thing(THINGER_USERNAME, THINGER_DEVICE, THINGER_DEVICE_CREDENTIALS);
+ThingerConsole console(thing);
+
+#ifdef BOARD_IS_WEMOS
 SSD1306Wire display(0x3c, OLED_SCL, OLED_SDA);                  //OLED 128*64 soldered
+#endif
+
+#ifdef BOARD_IS_TTGO
+TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
+#define TFT_GREY 0x5AEB // New colour
+#endif
+
 
 
 // Functions
@@ -81,9 +95,22 @@ void getTimeData()
 
 void buffTimeData()   // writes the time/date in Charbuff for print or display
 {
-  strftime(charbuff, sizeof(charbuff), "%R %x", timeinfo);
+  strftime(charbuff, sizeof(charbuff), "%R %d%b", timeinfo);
 }
 
+void espDelay(int ms)
+{   
+    esp_sleep_enable_timer_wakeup(ms * 1000);
+    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH,ESP_PD_OPTION_ON);
+    esp_light_sleep_start();
+}
+
+void setBrightness( int brightness)  // Display brightness 0..2047
+{
+  ledcWrite(14, brightness);
+}
+
+// Other Math / conversions
 bool inRange(int x, int low, int high) // checks if a value is in boundaries
 {  
   if (x >= low && x <= high)
@@ -91,16 +118,22 @@ bool inRange(int x, int low, int high) // checks if a value is in boundaries
   return false;
 }
 
-float adc2volt(unsigned int adc)     //Conversion ADC to Volt
+float adc2vout(unsigned int adc)     //Conversion ADC to Volt
 {
-  float volt = map(adc, ADC0V, 1500, 0, VOLT_1500);
+  float volt = map(adc, ADC0V, 1500, 0, VOUT_1500);
   volt = volt / 1000;
   return volt;
 }
 
+float adc2vin(unsigned int adc)     //Conversion ADC to Volt
+{
+  float volt = map(adc, ADC0V, 1500, 0, VIN_1500);
+  volt = volt / 1000;
+  return volt;
+}
 unsigned int  volt2pwm(float volt)     //Conversion Volt to PWM
 {
-  unsigned int pwm = map(volt * 1000, 0, VOLT_1500, PWM0V, PWM_1500);
+  unsigned int pwm = map(volt * 1000, 0, VOUT_1500, PWM_VV, PWM_1500);
   return pwm;
 }
 
@@ -114,7 +147,7 @@ float adc2amp(unsigned int adc)     //Conversion ADC to Ampere
 
 unsigned int amp2pwm(float amp)     //Conversion Ampere to PWM
 {
-  unsigned int pwm = map(amp * 1000, 0, AMP_MAX, PWM0A, PWMAMAX);
+  unsigned int pwm = map(amp * 1000, 0, AMP_MAX, PWM_VA, PWMAMAX);
   return pwm;
 }
 
