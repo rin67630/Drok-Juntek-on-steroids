@@ -8,18 +8,19 @@ void serialRun()
   {
     switch (serialPage)
     {
-      case 'E':   // Energy plot every
+      case 'E':   // Energy plot
         Console1.printf("Vset:%06.3f Vout:%06.3f Iset:%06.3f Iout:%06.3f Wout:%+07.3f\n", dashboard.Vset, dashboard.Vout, dashboard.Iset, dashboard.Iout, dashboard.Wout);
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
         break;
-      case 'W':   // ADC-PWM Report
-        Console1.printf("A0Raw:%04i Vout:%06.3f A3Raw:%04i Iout:%06.3f CVinj:%04i Vset:%06.3f CCinj:%04i Iset:%06.3f \n" , A0Raw, dashboard.Vout, A3Raw, dashboard.Iout, CVinj, dashboard.Vset, CCinj, dashboard.Iset);
+      case 'D':   // Debug Report
+        Console1.printf("ADC_PRaw:%04i Vin:%06.3f ADC_VRaw:%04i Vout:%06.3f ADC_IRaw:%04i Iout:%06.3f CVinj:%04i Vset:%06.3f CCinj:%04i Iset:%06.3f \n" , ADC_PRaw, dashboard.Vin, ADC_VRaw, dashboard.Vout, ADC_IRaw, dashboard.Iout, CVinj, dashboard.Vset, CCinj, dashboard.Iset);
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
         break;      
       case '~':   // WiFi status report
-        Console3.printf("RSSI:%d dBm\n", WiFi.RSSI());
+        Console1.printf("RSSI:%d dBm\n", WiFi.RSSI());
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
         break;
     }  // end switch (serialPage)
   }
+//          console.printf("Vset:%06.3f Vout:%06.3f Iset:%06.3f Iout:%06.3f Wout:%+07.3f\n", dashboard.Vset, dashboard.Vout, dashboard.Iset, dashboard.Iout, dashboard.Wout);
 }
