@@ -46,18 +46,18 @@ Over the serial port and thinger.io, many reports will be made available:
 
 Beside the usual constant voltage and constant current set points, I will provide many interesting things that are not common, but very useful:
 
-### Battery Charger mode:
+### Battery Charger mode: (1)  
 - charging profiles for many battery chemistries
 - evaluation of the battery's internal resistance
 - evaluation of the battery' capacity
 - charging time series plots
 
-### Power Source emulation:
+### Power Source emulation: (1)  
 - add a programmable internal resistance
 - run a constant power mode
 - emulation of solar panel / wind turbine incuding "pseudo-daily" gaussian cycles (accelerated 60x) to test solar chargers
 
-### Programmable Load (for the Juntek buck-boost version)
+### Programmable Load (for the Juntek buck-boost version) (1)  
 - together with a flooder to dissipate the energy, the buck-boost converter can be used to discharge batteries and transfer energy from one battery to another one.
 
 ### Maybe other useful ideas that you might have...
@@ -67,3 +67,5 @@ If you wanted to revert to the original functionality, just replug the manufactu
 There is absolutely no cable mess and even a new program can be updated over the air using a beginner's easy Arduino IDE.
 You need no additional computer to manage the dashboards, everything is done in the cloud.
 The only thing you need, is a Wifi connection.
+
+(1) not yet finalized...
