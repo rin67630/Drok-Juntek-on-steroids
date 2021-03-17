@@ -10,6 +10,7 @@ Juntek and Drok (maybe others) sell some interesting cheap programmable buck con
 
 They are all controlled by a pluggable control board, which stages a STM microcontroller and a 4x7 digit LED display.  
 The 4 push-buttons to control the operations are clumsy and the seven segment display is everything but comfortable.  
+![image](https://user-images.githubusercontent.com/14197155/111429960-fe846400-86f9-11eb-8274-4d3d04928e7a.png)    
 Some Drok modules provide a serial port to remote control the operation, the Juntek do not.  
 
 Both Vendors are however using the same analog control principle:  
