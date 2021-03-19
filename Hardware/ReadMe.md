@@ -1,6 +1,27 @@
 
 This folder will contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
+
+Finally V2.0 uses an additional I2C 16bit, 4 channel ADC  ADS1115.  
+With this module, conveniently placed under the TTGO, everything becomes much easier.
+This new solution uses less components, is much more precise, factory calibrated and the measuring ranges can be determined by software.
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators. 
+
+ ## Bill of materials
+
+- Juntek DSP 3606 / Drok 
+- TTGO ESP32 TFT board
+- ADS1115 external ADC board
+- 4 x 6 cm prototyping board
+- pin male / female pin headers
+- 1 x 100 k resistor
+- 1 x 5,6M resistor to measure up to 58V Vin
+- 2 x 68 k resistors
+- 1 x 470uF 16V chem capacitor **
+
+![image](https://user-images.githubusercontent.com/14197155/111845232-bbe2a780-8904-11eb-99dd-2d354bb2c001.png)
+The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators.
+
+
 
  ## Bill of materials
 
