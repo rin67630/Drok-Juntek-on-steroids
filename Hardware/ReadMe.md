@@ -23,6 +23,21 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 - 2 x 68 k resistors
 - 1 x 470uF 16V chem capacitor **
 
+## Header pinouts (comparison between Juntek / Drok)
+![image](https://user-images.githubusercontent.com/14197155/111883107-7cc25e00-89b9-11eb-9328-0746dcd03fd0.png)
+
+
+## Proto Wiring
+
+### Top view (competent side)
+![image](https://user-images.githubusercontent.com/14197155/111882859-26085480-89b8-11eb-9e56-94a602eb5963.png)  
+### Bottom view (soldering side)
+![image](https://user-images.githubusercontent.com/14197155/111882913-89928200-89b8-11eb-8b3b-20af0766aeed.png)
+
+## Schematic diagram
+(to come soon)
+
+
 
 
 
