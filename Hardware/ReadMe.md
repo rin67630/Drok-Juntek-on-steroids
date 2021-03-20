@@ -4,7 +4,7 @@ This folder will contains the schematics and hardware description of my Drok-Jun
 On a first approach V1.0, I have used a passive circuitry with resistors and capacitors to adapt the signal levels to the ADCs of the ESP32 and -to a certain extent- compensate the intrinsic deficits of the ESP32 ADCs.  
 (You can take a look at the remaining V1.0 description at the bottom of This file.) 
 
-#V2.0 
+# V2.0 
 
 Finally with V2.0 I decided to use an additional I2C 16bit, 4 channel ADC  ADS1115 module to replace the very low quality ADCs of the ESP32..  
 With this module, conveniently placed under the TTGO, everything becomes much easier.
@@ -23,10 +23,12 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 - 2 x 68 k resistors
 - 1 x 470uF 16V chem capacitor **
 
-![image](https://user-images.githubusercontent.com/14197155/111845232-bbe2a780-8904-11eb-99dd-2d354bb2c001.png)
 
 
-V1.0 
+
+
+
+# V1.0 
 this was my first design which will soon be deprecated.
 
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators.
