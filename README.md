@@ -22,10 +22,10 @@ My idea was to get rid of the original control module, and to replace it by an E
 give full internet control and provide tons of features...  
 
 I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.  
-![image](https://user-images.githubusercontent.com/14197155/111213918-94709f80-85d1-11eb-9671-7cfcf33bd9aa.png)  
+![image](https://user-images.githubusercontent.com/14197155/114783655-54d8d700-9d7a-11eb-900d-9af7a66a8807.png)
 
-The BOM for the upgrade cost less than 20$ (the ESP TTGO, a prototyping board, some pin headers, a few resistors and condensators...)  
-OK, it was not straight forward to get the crappy ADCs of the ESP32 to work correctly, but I now got it running.  
+The BOM for the upgrade cost less than 20$ (the ESP TTGO, an ADS1115 module, a prototyping board, some pin headers, a few resistors and condensators...)  
+
 
 ## The fun can begin!
 Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
