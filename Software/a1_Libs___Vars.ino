@@ -1,16 +1,21 @@
 // *** libraries***
-
+//#define _DISABLE_TLS_
 #include <Wire.h>          // Libs for I2C
-#include <ArduinoOTA.h>
+#include <ArduinoOTA.h>    // from Library
 #include <WiFi.h>
 #include <WiFiUdp.h>
-#define UDP_TX_PACKET_MAX_SIZE 128 //increase UDP size
 #include "time.h"
 #include <FS.h>
-#include <ThingerESP32.h>
-#include <ThingerConsole.h>
+#include <ThingerESP32.h>    // from Library
+#include <ThingerConsole.h>  //Hmm... does that work?
 #include <EEPROM.h>
-#include <Button2.h>
+#include <Button2.h>     // from Library
+#include <ADS1115_WE.h>  // from Library (Wollewald)
+
+#define UDP_TX_PACKET_MAX_SIZE 128 //increase UDP size
+#define DST_MN        60               
+#define GMT_OFFSET_SEC 3600 * TZ       
+#define DAYLIGHT_OFFSET_SEC 60 * DST_MN
 
 #ifdef BOARD_IS_WEMOS 
 #include "SSD1306Wire.h"  // from https://github.com/ThingPulse/esp8266-oled-ssd1306/
@@ -19,9 +24,14 @@
 #define OLED_SCL   5  // D1 GPIO5 for I2C (Wire) System Clock
 #define OLED_SDA   4  // D2 GPIO4 for I2C (Wire) System Data
 #define OLED_RST   0  //    GPIO0
-#define ADC_V      36  //Pin SVP  (V)
-#define ADC_I      39  //Pin SVN  (I)
-#define ADC_P        
+#define ADC_V      36  
+#define ADC_I      39  
+#define ADC_P      38 
+#define ADS_V      ADS1115_COMP_0_GND
+#define ADS_I      ADS1115_COMP_1_GND
+#define ADS_P      ADS1115_COMP_2_GND
+#define TFT_BL     0  // dummy
+ 
 #define PWM_V      12 // Pin SD0  (Vpwm)
 #define PWM_I      14 // Pin SD1  (Ipwm) 
 #endif
@@ -31,9 +41,9 @@
 #include <SPI.h>
 #define TFT_W 160
 #define TFT_H 128
-#define OLED_SCL   22  // GPIO22 for I2C (Wire) System Clock
-#define OLED_SDA   21  // GPIO21 for I2C (Wire) System Data
-#define TFT_BL      4  // Display backlight control pin
+#define OLED_SCL     22  // GPIO22 for I2C (Wire) System Clock
+#define OLED_SDA     21  // GPIO21 for I2C (Wire) System Data
+#define TFT_BL       4  // Display backlight control pin
 #define SCL          22  // D1 GPIO22 for I2C (Wire) System Clock
 #define SDA          21  // D2 GPIO21 for I2C (Wire) System Data
 #define RST          0   //    GPIO0
@@ -42,20 +52,18 @@
 #define SCLK         18  //    GPIO for SPI System Clock
 #define BUTTON_1     35
 #define BUTTON_2     0
-#define ADC_V        32  //Pin ADC4
-#define ADC_I        33  //Pin ADC5
-#define ADC_P        2   //Pin ADC12        
+#define ADC_V        36  
+#define ADC_I        39  
+#define ADC_P        38
+#define ADS_V        ADS1115_COMP_0_GND
+#define ADS_I        ADS1115_COMP_1_GND
+#define ADS P        ADS1115_COMP_2_GND
+    
 #define PWM_V        15  // Pin GPIO15  (Vpwm)
 #define PWM_I        13  // Pin GPIO13  (Ipwm) 
-#define TFT_VERMILON 0xFA60 // better orange
 #endif
 
-
-
 #define RecvPin   15 // Pin for IR Receiver
-
-
-
 
 //***Variables for Time***
 tm*        timeinfo;                 //localtime returns a pointer to a tm struct static int Second;
@@ -98,6 +106,7 @@ byte    serialPage;
 byte    serialPeriodicity;
 boolean serialEvent;
 boolean triglEvent;
+boolean coarse = true;
 
 static IPAddress ip;
 byte wifiConnectCounter;
@@ -107,8 +116,6 @@ struct dashboard {
   float Vout = 0;
   float Iout = 0;
   float Wout ;
-  float Ahout ;
-  float Whout ;  
   float Vin = 0;
   float Iin = 0;
   float Vset ;
@@ -144,16 +151,19 @@ float Vh[31];
 float Ah[31];
 float Wh[31];
 
-int ADC_VRaw;
-int ADC_IRaw;
-int ADC_PRaw;
-int lastADC_V;
-int lastADC_I;
-int lastADC_P;
+unsigned int ADC_VoutRaw;
+unsigned int ADC_IoutRaw;
+unsigned int ADC_VinRaw;
+float converted_VoutRaw;
+float converted_IoutRaw;
+float converted_VinRaw;
+int lastADC_Vout;
+int lastADC_Iout;
+int lastADC_Vin;
 
 // Injection PWM output values
-unsigned int CVinj;
-unsigned int CCinj;
+unsigned int PWM_Vset;
+unsigned int PWM_Cset;
 
 //*** Buffers ***
 static char charbuff[80];    //Char buffer for many functions
