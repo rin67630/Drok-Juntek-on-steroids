@@ -1,9 +1,22 @@
 void menuRun()
 {
-  if (Year < 2020) setTimefromSerial();
-  byte n;
-  byte m;
+  //  if (Year < 2020) setTimefromSerial();
+
   if (Console0.available())   inbyte = Console0.read(); //Serial input available
+/*  
+Wire.requestFrom(0x08, 1)
+  while (Wire.available())
+  {
+    inbyte = = Wire.read();                  // receive a byte as character
+    if (key_val != 0) {
+      if (key_val >= 0x20 && key_val < 0x7F) { // ASCII String
+        Serial.print((char)key_val);
+      } else {
+        Serial.printf("0x%02X ", key_val);
+      }
+    }
+  }
+*/
   switch (inbyte)
   {
     //====(Serial Menu)======
@@ -33,29 +46,37 @@ void menuRun()
       displayPage = 5;
       Console1.printf ("D=3\n");
       break;
+    case '%':  //toggle between coarse/fine settings for "+,-,<,>"
+     coarse = not coarse;
+      Console1.printf ("%s \n",coarse?"coarse":"fine");  
+    break;
     case '+': //Increase Volt
-      //CVinj += 10;
-      //Console1.printf ("+1 Vinj=%i Vadc=%i\n", CVinj, ADC_VRaw);
-      dashboard.Vset += 0.1;
-      Console1.printf ("+1 Volt=%06.3f\n", dashboard.Vset);
+      //PWM_Vset += 10;
+      //Console1.printf ("+1 Vinj=%i Vadc=%i\n", PWM_Vset, ADC_VoutRaw);
+      if (coarse) dashboard.Vset += 0.1;
+      if (not coarse) dashboard.Vset += 0.01;      
+      Console1.printf ("%s Volt=%06.3f\n",coarse?"++":"+", dashboard.Vset);
       break;
     case '-': //Reduce Volt
-      //CVinj -= 10;
-      //Console1.printf ("-1 Vinj=%i Vadc=%i\n", CVinj, ADC_VRaw);
-      dashboard.Vset -= 0.1;
-      Console1.printf ("-1 Volt=%06.3f\n", dashboard.Vset);
+      //PWM_Vset -= 10;
+      //Console1.printf ("-1 Vinj=%i Vadc=%i\n", PWM_Vset, ADC_VoutRaw);
+      if (coarse) dashboard.Vset -= 0.1;
+      if (not coarse) dashboard.Vset -= 0.01;  
+      Console1.printf ("%s Volt=%06.3f\n",coarse?"--":"-", dashboard.Vset);  
       break;
     case '>': //Increase Amp
-      //CCinj += 10;
-      //Console1.printf ("+1 Cinj=%i Iadc=%i\n", CCinj,ADC_IRaw);
-      dashboard.Iset += 0.05;
-      Console1.printf ("+10 Amp=%06.3f \n", dashboard.Iset);
+      //PWM_Cset += 10;
+      //Console1.printf ("+1 Cinj=%i Iadc=%i\n", PWM_Cset,ADC_IoutRaw);
+      if (coarse) dashboard.Iset += 0.05;
+      if (not coarse) dashboard.Iset += 0.001;  
+      Console1.printf ("%s Amp=%06.3f\n",coarse?"++":"+", dashboard.Iset);
       break;
     case '<': //Reduce Amp
-      //CCinj -= 10;
-      //Console1.printf ("+1 Cinj=%i Iadc=%i\n", CCinj,ADC_IRaw);
-      dashboard.Iset -= 0.05;
-      Console1.printf ("-10 Amp=%06.3f\n", dashboard.Iset);
+      //PWM_Cset -= 10;
+      //Console1.printf ("+1 Cinj=%i Iadc=%i\n", PWM_Cset,ADC_IoutRaw);
+      if (coarse) dashboard.Iset -= 0.05;
+      if (not coarse) dashboard.Iset -= 0.001; 
+      Console1.printf ("%s Amp=%06.3f\n",coarse?"--":"-", dashboard.Iset);
       break;
     case 'Z':  // Write persistance and Reset
       for ( int i = 0; i < sizeof(persistance); ++i ) EEPROM.write ( i + 100,  persistance_punning[i] );
@@ -66,14 +87,14 @@ void menuRun()
       ESP.restart();
       break;
     case 'z':  //Reset runtime
-      Console1.printf ("\nRt:%06i s Ah:%06.3f Wh:%06.3f \n", persistance.Runseconds, persistance.Ahout, persistance.Whout);
+      Console1.printf ("\nRt:%06lu s Ah:%06.3f Wh:%06.3f \n", persistance.Runseconds, persistance.Ahout, persistance.Whout);
       Console1.printf ("\nResetting \n");
       persistance.Runseconds = 0;
       persistance.Ahout = 0;
       persistance.Whout = 0;
       CycleVInt = CycleIInt = CycleWInt = nCycle = 0;
       persistance.initial_voltage = dashboard.Vout;
-      thing.stream("status"); 
+      thing.stream("status");
       break;
 
     // ***One shot Reports**
@@ -81,7 +102,7 @@ void menuRun()
       Console1.printf ("\nSummary Report\n");
       serialPage = 'S';
       break;
-     case 'D':  //Debug Report
+    case 'D':  //Debug Report
       Console1.printf ("\nDebug Report\n");
       serialPage = 'D';
       break;
@@ -92,8 +113,12 @@ void menuRun()
       Console1.println(ctime(&now));
       break;
     case 'T': // Enter time
-      setTimefromSerial();
+      //setTimefromSerial();
       break;
+    case '~':  //Redio Report / WiFi
+      Console1.printf ("\nWiFi Status\n");
+      serialPage = '~';
+       break;
     case 'W': // Write Persistance data to EEPROM (Adress = 100...)
       for ( int i = 0; i < sizeof(persistance); ++i ) EEPROM.write ( i + 100,  persistance_punning[i] );
       EEPROM.commit();
@@ -126,17 +151,9 @@ void menuRun()
     // ***Periodical Reports/Plots**
     case 'E':  //Energy Plot
       serialPage = 'E';
-      //      Console1.printf ("\nEnergy plot :\n");
       break;
     case 'V':  //Variables (PWM, ADC) tracking
-      serialPage = 'W';
-      //      Console1.printf ("\nPWM Plot :\n");
-      break;
-    case '~':  //Redio Report / WiFi
-      serialPage = '~';
-      Console1.printf ("\nWiFi Plot :\n");
-      WiFi.printDiag(Console1);
-      //Console1.flush();
+      serialPage = 'V';
       break;
   } //end switch (inbyte)
 
