@@ -1,9 +1,8 @@
 # Configuration instructions
 Warning: a few settings must interactivity match between the configuration at Thinger.io and the configuration file in the ESP.
-So, if you are not an expert, may I strongly recommend not to change the username, nor to change the HOST_NAME unless you get familiar with the operation of the whole ecosystem.
 
-The software is written in such a way that you can use it just upon defining your options in the folder a0_Parameters.  
-If you are not familiar with the code, *this (and eventually Thinger_Dashboard) are the only folder that you should change*:  
+The software is written in such a way that you can use it just upon defining your options **in the folder a0_Parameters.**  
+If you are not familiar with the code, *this (and Dashboard.josn) are the only folders that you should change*:  
 
 ## Parameter list
 If you have several devices, change the HOST_NAME and let it be "JuntekDrokSteroids", which must be matching the device name that you created at Thinger.io
