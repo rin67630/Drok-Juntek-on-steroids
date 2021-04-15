@@ -8,7 +8,7 @@ If you are not familiar with the code, *this (and Dashboard.josn) are the only f
 If you have several devices, change the HOST_NAME and let it be "JuntekDrokSteroids", which must be matching the device name that you created at Thinger.io
 The HOST_NAME also matches the device content of the default dashboard.  
 
-Begin with populationg your credentials
+Begin with populating your credentials
 #### WiFi credentials
  
 Enter your Wi-Fi credentials 
@@ -33,20 +33,24 @@ Leave the third line unchanged it takes over the device hostname, that you defin
 
 
 ### Time zones
+´´´
 #define NTP_SERVER "de.pool.ntp.org"
 #define TZ   1                              // (utc+) TZ in hours
-
-
+´´´
 Then proceed with the hardware configuration:
 ### Hardware configuration
 
 1) match the DC/DC converter type:
+´´´
 #include "DROK6008.h"   // DROK 6008 Motherboard interface parameters
-(I have provided four include files containing their electrical parameters of the different DC-converter is for which Drok-Juntek-on-steroids can work.
-with these includes the match should be okay out of the box with a precision of approximately 1%) 
+´´´
+
+(I have provided four include files containing their electrical parameters of the different DC-converter is for which Drok-Juntek-on-steroids can work. Just include the one mtaching your hardware. 
+The match should be okay out of the box with a precision of approximately 1%) 
+
 You can increase the precision with the calibration procedure described in 6_calibration_procedure.md but this is not a requirement.
 
-the next settings can be left as it is:
+The next settings can be left as it is:
 
 ```
 //  ***Communication options*** (For geeks only, else leave as it is)
