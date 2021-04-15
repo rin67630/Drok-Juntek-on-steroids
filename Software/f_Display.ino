@@ -36,8 +36,8 @@ void displayRun()
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   sprintf(charbuff, "Setpoints: %05.2fV | %05.2fA | *USER", dashboard.Vset, dashboard.Iset) ;  tft.println(charbuff);
   tft.setTextFont(4); 
-  tft.setTextColor(TFT_YELLOW, TFT_BLACK) ; sprintf(charbuff, "%06.2fVo", dashboard.Vout); tft.print(charbuff);
-  tft.setTextColor(TFT_GREEN, TFT_BLACK) ; sprintf(charbuff, "  %06.2fVi ", dashboard.Vin); tft.println(charbuff); 
+  tft.setTextColor(TFT_GOLD, TFT_BLACK) ; sprintf(charbuff, "%06.2fVo", dashboard.Vout); tft.print(charbuff);
+  tft.setTextColor(TFT_DARKGREEN, TFT_BLACK) ; sprintf(charbuff, "  %06.2fVi ", dashboard.Vin); tft.println(charbuff); 
   tft.setTextColor(TFT_VERMILON, TFT_BLACK)    ; sprintf(charbuff, "%06.2fA    %06.2fAh ", dashboard.Iout, persistance.Ahout); tft.println(charbuff); 
   tft.setTextColor(TFT_BLUE, TFT_BLACK)      ; sprintf(charbuff, "%06.2fW  %06.2fWh ", dashboard.Wout, persistance.Whout); tft.println(charbuff);  
   buffTimeData();
