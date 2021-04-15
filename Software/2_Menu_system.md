@@ -22,7 +22,7 @@ In order to put the maximum of functionality into scarce memory of the microcont
 Instead you have a choice of single character commands, from which you can however enter several in one line, they will be executed in sequence.
 The single character menu enables also to use keypads with few function keys.  
 
-### Control commands
+## Control commands
 From the serial menu, you can control several operations of Soft-Power.  
 
 - '%' toggle between small step changes  (10mV/10mA) and coarse steps (100mV/50mA)
@@ -36,12 +36,12 @@ the menu answers with ++  Amp=00.650 or +  Amp=00.640 depending if it was a coar
 
 The commands can be stacked: you may type ++++++++++++, ------, >>>>>, <<<<<<<<<<< then enter and it will increasedecrease the corresponding number of steps.
 
-### Setting the pace for periodical reports
+## Setting the pace for periodical reports
 The pace for next 2 reports is given with a lower case prefix:  
 's', 'm', 'h', 'd' staying for every second, minutely, hourly, daily.  
 Once the pace for periodical reports is given, it stays valid for every report called after, until another pace is choosen or a '!' stop command is entered.  
 
-### Periodical reports
+## Periodical reports
 currently the following periodical reports are available (more to come)
 
 ### 'D':  //Debug Report
@@ -103,7 +103,7 @@ Thu Apr 15 15:49:19 2021
 this command is only valued off-line, with an Internet connection the time is given from the NTP server.
 
 
-### Display control commands
+## Display control commands
 You will be able to control which information is displayed on the TFT Display:  
 - '0' switch of the display
 - '1' current energy display
@@ -111,6 +111,3 @@ You will be able to control which information is displayed on the TFT Display:
 - '3' Ah display ( scanning the last day ) (to come soon)
 - '4' and '5' (to come soon)
  
-
-
-```
