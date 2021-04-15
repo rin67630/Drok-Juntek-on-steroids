@@ -17,10 +17,10 @@ From the serial menu, you can control several operations of Soft-Power.
 - '%' toggle between small step changes  (10mV/10mA) and coarse steps (100mV/50mA)
 the menu answers with fine or coarse and keeps that setting until toggled again.
 
-- '+' or '-' increases or decreases in small steps the setpoint of the battery voltage
+- '+' or '-' increases or decreases in small steps the setpoint of the output voltage
 the menu answers with ++ Volt=14.500 or + Volt=14.510 depending if it was a coarse or a fine step.
 
-- '>' or '<' increases or decreases in coarse steps the setpoint of the battery current
+- '>' or '<' increases or decreases in coarse steps the setpoint of the output current
 the menu answers with ++  Amp=00.650 or +  Amp=00.640 depending if it was a coarse or a fine step.
 
 The commands can be stacked: you may type ++++++++++++, ------, >>>>>, <<<<<<<<<<< then enter and it will increasedecrease the corresponding number of steps.
