@@ -19,32 +19,32 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 - 4 x 6 cm prototyping board
 - pin male / female pin headers
 - 1 x 100 k resistor
-- 1 x 5,6M resistor to measure up to 58V Vin
+- 1 x 3,3MM resistor to measure up to 58V Vin for Drok, 2k resistor to measure Vin for JuntekD3806, nothing for Juntek B3603.
 - 2 x 68 k resistors
+- 2 x 1 k resistors 
 - 1 x 470uF 16V chem capacitor **
 
 ## Header pinouts (comparison between Juntek / Drok)
-![image](https://user-images.githubusercontent.com/14197155/111883107-7cc25e00-89b9-11eb-9328-0746dcd03fd0.png)
+![image](https://user-images.githubusercontent.com/14197155/114867880-95296b00-9df5-11eb-8e2a-d6cf6fb52556.png)
 
 
 ## Proto Wiring
+There is no PCB yet, it's relativly easy to wire the adapter to a prototyping board:
+### Top view (component side)
+![image](https://user-images.githubusercontent.com/14197155/114868005-bd18ce80-9df5-11eb-8752-14d2cea88e81.png)
 
-### Top view (competent side)
-![image](https://user-images.githubusercontent.com/14197155/111882859-26085480-89b8-11eb-9e56-94a602eb5963.png)  
 ### Bottom view (soldering side)
-![image](https://user-images.githubusercontent.com/14197155/111882913-89928200-89b8-11eb-8b3b-20af0766aeed.png)
+
 
 ## Schematic diagram
-(to come soon)
-
-
-
-
+![image](https://user-images.githubusercontent.com/14197155/114868268-036e2d80-9df6-11eb-8a8a-b4f55aa5cd17.png)
+you may find the editable schematio here:
+https://oshwlab.com/lazlo.lebrun/juntek-on-steroids
 
 
 
 # V1.0 
-this was my first design which will soon be deprecated.
+this was my first design which is now deprecated.
 
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators.
 
