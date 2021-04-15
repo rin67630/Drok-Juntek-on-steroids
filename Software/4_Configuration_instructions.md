@@ -45,10 +45,11 @@ Then proceed with the hardware configuration:
 #include "DROK6008.h"   // DROK 6008 Motherboard interface parameters
 ´´´
 
-(I have provided four include files containing their electrical parameters of the different DC-converter is for which Drok-Juntek-on-steroids can work. Just include the one mtaching your hardware. 
+(I have provided four include files containing their electrical parameters of the different DC-converter is for which Drok-Juntek-on-steroids can work.  
+Just include the one mtaching your hardware. 
 The match should be okay out of the box with a precision of approximately 1%) 
 
-You can increase the precision with the calibration procedure described in 6_calibration_procedure.md but this is not a requirement.
+You can increase the precision with the calibration procedure described in /hardware/6_Calibration_procedure.md but this is not a requirement.
 
 The next settings can be left as it is:
 
