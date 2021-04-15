@@ -8,33 +8,19 @@ you may use the serial monitor functionality of the Arduino IDE, but can also us
 ## Boot Log
 When you start your power supply you will first get the boot log:
 ```
-18:53:25.652 -> ets Jun  8 2016 00:22:57
-18:53:25.652 -> 
-18:53:25.652 -> rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
-18:53:25.652 -> configsip: 0, SPIWP:0xee
-18:53:25.652 -> clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
-18:53:25.652 -> mode:DIO, clock div:1
-18:53:25.652 -> load:0x3fff0018,len:4
-18:53:25.652 -> load:0x3fff001c,len:1216
-18:53:25.652 -> ho 0 tail 12 room 4
-18:53:25.652 -> load:0x40078000,len:9720
-18:53:25.652 -> ho 0 tail 12 room 4
-18:53:25.652 -> load:0x40080400,len:6352
-18:53:25.652 -> entry 0x400806b8
-18:53:25.981 -> 
-18:53:25.981 -> ESP-Karajan at work,Serial @ 115200 Baud
-18:53:25.981 -> Trying to connect
-18:53:25.981 -> 
-18:53:26.642 -> 
-18:53:27.161 -> .RRSI: -49
-18:53:29.329 -> IP= 192 . 168 188 . 076 
-18:53:29.329 -> Initializing Thinger, Username= SoftPower1
-18:53:32.251 -> Now is Thursday, 15 April 2021 18:53:33. Epoch =1618505613
-18:53:32.251 -> 
+22:08:28.803 -> Resetted! 
+22:08:28.803 -> Device name: SteroidsADS 
+22:08:28.803 -> ESP-Karajan framework at work, Serial @ 115200 Baud
+22:08:28.803 -> Try connecting to GW-FM-7390 
+22:08:29.979 -> . Done!
+22:08:30.027 -> RRSI= -49dB, IP= 192 . 168 188 . 076 
+22:08:32.101 -> Initializing Thinger, Username= SoftPower1
+22:08:35.026 -> Now is Thursday, 15 April 2021 22:08:36. Epoch =1618517316
 ```
 
 In order to put the maximum of functionality into scarce memory of the microcontroller, there is no verbose menu.  
-Instead you have a choice of single character commands, from which you can however enter several in one line, they will be executed in sequence.  
+Instead you have a choice of single character commands, from which you can however enter several in one line, they will be executed in sequence.
+The single character menu enables also to use keypads with few function keys.  
 
 ### Control commands
 From the serial menu, you can control several operations of Soft-Power.  
