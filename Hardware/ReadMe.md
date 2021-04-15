@@ -31,9 +31,15 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 ## Proto Wiring
 There is no PCB yet, it's relativly easy to wire the adapter to a prototyping board:
 ### Top view (component side)
-![image](https://user-images.githubusercontent.com/14197155/114868005-bd18ce80-9df5-11eb-8752-14d2cea88e81.png)
+![image](https://user-images.githubusercontent.com/14197155/114868005-bd18ce80-9df5-11eb-8752-14d2cea88e81.png)  
+![image](https://user-images.githubusercontent.com/14197155/114870750-d111ff80-9df8-11eb-89b9-dd0b02c3b9ca.png)  
+
 
 ### Bottom view (soldering side)
+![image](https://user-images.githubusercontent.com/14197155/114870552-9740f900-9df8-11eb-82a3-4294a1313c18.png)  
+(this sketch is actual)
+![image](https://user-images.githubusercontent.com/14197155/114871039-264e1100-9df9-11eb-837d-c665b4e09eef.png)
+(Photo not completely actual, small changes against sketch exist, just given to show the effort)
 
 
 ## Schematic diagram
