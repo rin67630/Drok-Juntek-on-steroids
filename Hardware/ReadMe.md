@@ -6,7 +6,7 @@ On a first approach V1.0, I have used a passive circuitry with resistors and cap
 
 # V2.0 
 
-Finally with V2.0 I decided to use an additional I2C 16bit, 4 channel ADC  ADS1115 module to replace the very low quality ADCs of the ESP32..  
+Finally with V2.0 I decided to use an I2C 16bit, 4 channel ADC  ADS1115 module to replace the very low quality ADCs of the ESP32..  
 With this module, conveniently placed under the TTGO, everything becomes much easier.
 This new solution uses less components, is much more precise, factory calibrated and the measuring ranges can be determined by software.
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators. 
