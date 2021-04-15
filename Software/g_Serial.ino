@@ -1,9 +1,9 @@
 void serialRun()
 {
   yield();
-  if (DayExpiring && (serialPeriodicity == 'd')    ||
-      HourExpiring && (serialPeriodicity == 'h')   ||
-      MinuteExpiring && (serialPeriodicity == 'm') ||
+  if ((DayExpiring && (serialPeriodicity == 'd'))    ||
+      (HourExpiring && (serialPeriodicity == 'h'))   ||
+      (MinuteExpiring && (serialPeriodicity == 'm')) ||
       (serialPeriodicity == 's') || (serialPeriodicity == '!'))
   {
     switch (serialPage)
@@ -13,14 +13,32 @@ void serialRun()
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
         break;
       case 'D':   // Debug Report
-        Console1.printf("ADC_PRaw:%04i Vin:%06.3f ADC_VRaw:%04i Vout:%06.3f ADC_IRaw:%04i Iout:%06.3f CVinj:%04i Vset:%06.3f CCinj:%04i Iset:%06.3f \n" , ADC_PRaw, dashboard.Vin, ADC_VRaw, dashboard.Vout, ADC_IRaw, dashboard.Iout, CVinj, dashboard.Vset, CCinj, dashboard.Iset);
+        Console1.printf("ADC_VinRaw:%u Vin:%06.3f ADC_VoutRaw:%u Vout:%06.3f ADC_IoutRaw:%u Iout:%06.3f PWM_Vset:%04i Vset:%06.3f PWM_Cset:%04i Iset:%06.3f \n" , ADC_VinRaw, dashboard.Vin, ADC_VoutRaw, dashboard.Vout, ADC_IoutRaw, dashboard.Iout, PWM_Vset, dashboard.Vset, PWM_Cset, dashboard.Iset);
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
-        break;      
+        break;
+      case 'S': // Summary
+        sprintf(charbuff, " \nSummary Report for \n%s, %02d %s %04d ", DayName , Day , MonthName, Year);
+        Console1.print(charbuff);
+        Console1.printf("\nHour|    Ah   |    Vh    |    Wh    |\n");
+        for  (byte n = 0; n < 31; n++)
+        {
+          if (n == 24)
+          {
+            Console1.printf("Extra ""hours"" 25:H-1, 26:today, 27:D-1, 28:D-2..\n");
+          }
+          else
+          {
+            Console1.printf("%02u  | %+07.3f | %+07.3f | %+07.3f |\n", n, Ah[n], Vh[n], Ah[n] * Wh[n]);
+          }
+        }
+        serialPage = 0;
+        break;
       case '~':   // WiFi status report
-        Console1.printf("RSSI:%d dBm\n", WiFi.RSSI());
+        Console1.print(" RRSI= ");   Console4.print(WiFi.RSSI()); sprintf(charbuff, "dB, IP= %03d.%03d.%03d.%03d\n",  ip[0], ip[1], ip[2], ip[3]);  Console4.printf(charbuff);        
         if (serialPeriodicity == '!') serialPage = 0; // One shot reset serial page.
         break;
     }  // end switch (serialPage)
+    
   }
-//          console.printf("Vset:%06.3f Vout:%06.3f Iset:%06.3f Iout:%06.3f Wout:%+07.3f\n", dashboard.Vset, dashboard.Vout, dashboard.Iset, dashboard.Iout, dashboard.Wout);
+  //          console.printf("Vset:%06.3f Vout:%06.3f Iset:%06.3f Iout:%06.3f Wout:%+07.3f\n", dashboard.Vset, dashboard.Vout, dashboard.Iset, dashboard.Iout, dashboard.Wout);
 }
