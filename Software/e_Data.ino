@@ -3,43 +3,71 @@ void data125mSRun()
 #if not defined (UDP_SLAVE)
   // === ( Measures)  ====
 
-  ADC_VRaw = ADC_IRaw = ADC_PRaw =0;
+#ifdef ADC_IS_ESP
+  ADC_VoutRaw = ADC_IoutRaw = ADC_VinRaw =0;
   for  (byte n = 0; n < 5; n++)   // Vout measure
   {
     int m = analogRead(ADC_V);
-    ADC_VRaw += constrain( m, lastADC_V - 2, lastADC_V + 2); // eliminate spikes
+    ADC_VoutRaw += constrain( m, lastADC_Vout - 2, lastADC_Vout + 2); // eliminate spikes
     delay (2);
   }
-  ADC_VRaw = ADC_VRaw / 5;
-  lastADC_V = ADC_VRaw;
-  dashboard.Vout +=  (adc2vout(ADC_VRaw) - dashboard.Vout) / 8 ;  // 1rst order low pass filter
+  ADC_VoutRaw = ADC_VoutRaw / 5;
+  lastADC_Vout = ADC_VoutRaw;
+  dashboard.Vout +=  (adc2vout(ADC_VoutRaw) - dashboard.Vout) / 8 ;  // 1rst order low pass filter
 
   for  (byte n = 0; n < 5; n++)   // Iout measure
   {
     int m = analogRead(ADC_I);
-    ADC_IRaw += constrain( m, lastADC_I - 3, lastADC_I + 2); // eliminate spikes
+    ADC_IoutRaw += constrain( m, lastADC_Iout - 3, lastADC_Iout + 2); // eliminate spikes
     delay (2);
   }
-  ADC_IRaw = ADC_IRaw / 5;
-  lastADC_I = ADC_IRaw;
-  dashboard.Iout +=  (adc2amp(ADC_IRaw) - dashboard.Iout) / 8 ;   // 1rst order low pass filter
+  ADC_IoutRaw = ADC_IoutRaw / 5;
+  lastADC_Iout = ADC_IoutRaw;
+  dashboard.Iout +=  (adc2amp(ADC_IoutRaw) - dashboard.Iout) / 8 ;   // 1rst order low pass filter
 
     for  (byte n = 0; n < 5; n++)   // Vin measure
   {
-    int m = analogRead(ADC_P);
-    ADC_PRaw += constrain( m, lastADC_P - 2, lastADC_P + 2); // eliminate spikes
+    int m = analogRead(ADC_Vin);
+    ADC_VinRaw += constrain( m, lastADC_Voutin - 2, lastADC_Voutin + 2); // eliminate spikes
     delay (2);
   }
-  ADC_PRaw = ADC_PRaw / 5;
-  lastADC_P = ADC_PRaw;
-  dashboard.Vin +=  (adc2vin(ADC_PRaw) - dashboard.Vin) / 8 ;  // 1rst order low pass filter
+  ADC_VinRaw = ADC_VinRaw / 5;
+  lastADC_Voutin = ADC_VinRaw;
+  dashboard.Vin +=  (adc2vin(ADC_VinRaw) - dashboard.Vin) / 8 ;  // 1rst order low pass filter 
+#endif
 
+
+#ifdef ADC_IS_ADS1115
+  adc.setVoltageRange_mV(ADS1115_RANGE_2048);
+  adc.setCompareChannels(FB_Vout_PIN);
+  adc.startSingleMeasurement();
+  while(adc.isBusy()){}
+  ADC_VoutRaw = adc.getResult_mV();
+  converted_VoutRaw = (float(ADC_VoutRaw) - FB_Vout_BIAS) * FB_Vout_RES ;  
+  dashboard.Vout +=  (converted_VoutRaw  / 1000  - dashboard.Vout) / 8 ;  // 1rst order low pass filter
+
+  adc.setVoltageRange_mV(ADS1115_RANGE_2048);
+  adc.setCompareChannels(FB_Iout_PIN);
+  adc.startSingleMeasurement();
+  while(adc.isBusy()){}
+  ADC_IoutRaw = adc.getResult_mV();
+  converted_IoutRaw = (float(ADC_IoutRaw) - FB_Iout_BIAS) * FB_Iout_RES / 10 ;     
+  dashboard.Iout +=  (converted_IoutRaw  / 1000 - dashboard.Iout) / 8 ;  // 1rst order low pass filter
+
+  adc.setVoltageRange_mV(ADS1115_RANGE_2048);
+  adc.setCompareChannels(FB_Vin_PIN);
+  adc.startSingleMeasurement();
+  while(adc.isBusy()){}
+  ADC_VinRaw = adc.getResult_mV();
+  converted_VinRaw = (float(ADC_VinRaw) - FB_Vin_BIAS) * FB_Vin_RES  ;   
+  dashboard.Vin +=  (converted_VinRaw  / 1000 - dashboard.Vin) / 8 ;  // 1rst order low pass filter
+#endif
 
   // === ( Actions)  ====
-  CVinj = volt2pwm(dashboard.Vset);
-  CCinj = amp2pwm(dashboard.Iset);
-  ledcWrite(0, CVinj);
-  ledcWrite(3, CCinj);
+  PWM_Vset = dashboard.Vset  * PWM_Vout_STEP + PWM_Vout_BIAS ;
+  PWM_Cset = dashboard.Iset  * 10 * PWM_Iout_STEP + PWM_Iout_BIAS ;
+  ledcWrite(0, PWM_Vset);
+  ledcWrite(3, PWM_Cset);
 #endif
 } // end 125msRun
 
