@@ -23,9 +23,7 @@ give full internet control and provide tons of features...
 
 I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.  
 ![image](https://user-images.githubusercontent.com/14197155/114783655-54d8d700-9d7a-11eb-900d-9af7a66a8807.png)
-
 The BOM for the upgrade cost less than 20$ (the ESP TTGO, an ADS1115 module, a prototyping board, some pin headers, a few resistors and condensators...)  
-
 
 ## The fun can begin!
 Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
@@ -35,8 +33,8 @@ The power supply is controllable by:
 - USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.  
 - from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.  
 This is just an example, much more will come:  
-![image](https://user-images.githubusercontent.com/14197155/111214263-09dc7000-85d2-11eb-9934-2d00401c982c.png)  
-- a IR remote control.  
+![image](https://user-images.githubusercontent.com/14197155/115007212-09254b00-9eaa-11eb-96bc-986cca4dbfe1.png)  
+- an IR remote control.  
 - remote screen replication  
 
 Over the serial port and thinger.io, many reports will be made available:  
