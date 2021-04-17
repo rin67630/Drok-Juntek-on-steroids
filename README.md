@@ -24,7 +24,7 @@ I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm pr
 The BOM for the upgrade cost less than 20$ (the ESP TTGO, an ADS1115 module, a prototyping board, some pin headers, a few resistors and condensators...)  
 
 ## The fun can begin!
-Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I will be able to provide much more than just a simple programmable power supply.
+Recycling a big part of the software resources of https://github.com/rin67630/Soft-Power-MPPT, I am providing much more than just a simple programmable power supply.
 
 ### Power supply mode
 The power supply is controllable by:   
