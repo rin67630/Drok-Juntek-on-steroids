@@ -11,15 +11,13 @@ Juntek and Drok (maybe others) sell some interesting cheap programmable buck con
 They are all controlled by a pluggable control board, which stages a STM microcontroller and a 4x7 digit LED display.  
 The 4 push-buttons to control the operations are clumsy and the seven segment display is everything but comfortable.  
 ![image](https://user-images.githubusercontent.com/14197155/111429960-fe846400-86f9-11eb-8274-4d3d04928e7a.png)    
-Some Drok modules provide a serial port to remote control the operation, the Juntek do not. 
-Some projects like that one https://github.com/baruch/b3603 and its forks had reprogrammed the STM microcontroller in order to provide a serial control protocol.
-
-Both Vendors are however using the same analog control principle:  
-On the left side the connector gets two PWM voltage and current control inputs and deliver two analog voltage and current control outputs all in the range 0..2,4V.  
-On the right side, the connector provides GND and 5V at ~200mA.  
 
 My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
-give full internet control and provide tons of features...  
+give full internet control and provide tons of features... 
+
+Some Drok modules provide a serial port to remote control the operation, the Juntek do not. 
+Drok and Juntek are using the same analog control principle:  on the left side, the connector gets two PWM control inputs (voltage and current) and deliver two corresponding analog control feedback outputs all in the range 0..2,1V.  
+On the right side, the connector provides GND and 5V at ~200mA.  
 
 I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.  
 ![image](https://user-images.githubusercontent.com/14197155/114783655-54d8d700-9d7a-11eb-900d-9af7a66a8807.png)
