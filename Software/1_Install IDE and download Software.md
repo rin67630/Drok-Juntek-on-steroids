@@ -22,7 +22,14 @@ You will now find the project in File/Sketchbook/SoftPowerMPPT and after startin
 
 If later you just need to update some tabs individually, you just can copy the content directly into the Arduino IDE.
 
-Before compiling, replace [Your User Arduino Folder]\libraries\TFT_eSPI\User_Setup.h by the customized file attached.
+You must not only install TFT_eSPI library from the library manager, but also configure thie generic library to work with the TFT panel of the TTGO
+
+Go to the root of the TFT_eSPI. Most likely this will be C:\Users\[Your User]\Documents\Arduino\libraries\TFT_eSPI-master
+Overwrite the file User_Setup.h  at that location with the User_Setup.h file provided in /Software.
+
+Button2 you must install this lib from the Library manager. 
+
+
 
 ## Configuration instructions
 https://github.com/rin67630/Soft-Power-MPPT//blob/main/Software/Configuration%20Instructions.md
