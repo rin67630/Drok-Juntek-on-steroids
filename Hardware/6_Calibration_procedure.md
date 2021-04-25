@@ -9,10 +9,12 @@ I have recorded all values in header files:
 1) D6008.h
 2) D6812.h
 3) J3603.h
-4) J3806.h
+4) J3806.h  
+
 These values should give you approximately 1% accuracy out of the box.
-If you want something more precise, you will need to calibrate and match the microcontroller module to the DC/DC converter.
-To do that, you will need an adjustable power supply and a multimeter, plus a dummy load that is able to accept some current ( I am using a 1000W 220V halogen bulb from an old cinema projector ).
+If you want something more precise, you will need to calibrate and match the microcontroller module to the DC/DC converter.  
+To do that, you will need an adjustable power supply and a multimeter, plus a dummy load that is able to accept some current  
+( I am e.g. using a 1000W 220V halogen bulb from an old cinema projector ).
 
 We will, for each measurement, to record two values low/high at known values.
 The results will be entered in an excel file /hardware/CalibrationTTGO&ADS1115.xlsx
@@ -52,7 +54,31 @@ Using the serial terminal program, change the output current by entering a seque
 Congratulations!
 The calibration procedure is finalised.
 
-Copy of green values of the frame into the corresponding header file.
+Copy of green values of the frame into the corresponding header file:
+e.g.:
+```
+#define PWM_Vout_BIAS	-1.2000  
+#define PWM_Vout_STEP	18.2000  
+#define PWM_Vout_RES	54.9451  
+	
+#define PWM_Iout_BIAS	68.1500  
+#define PWM_Iout_STEP	8.8500
+#define PWM_Iout_RES	11.2994
+	
+#define FB_Vin_BIAS	0.0000
+#define FB_Vin_STEP	29.8000
+#define FB_Vin_RES	33.5570
+	
+#define FB_Vout_BIAS	0.0000
+#define FB_Vout_STEP	29.1667
+#define FB_Vout_RES	34.2857
+	
+#define FB_Iout_BIAS	109.8750
+#define FB_Iout_STEP	14.1250
+#define FB_Iout_RES	7.0796
+```
+![image](https://user-images.githubusercontent.com/14197155/115987923-82faba00-a5b7-11eb-8b44-a7be760487db.png)
+
 Compile.
 Enjoy!
 
