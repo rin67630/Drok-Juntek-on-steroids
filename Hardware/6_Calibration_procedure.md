@@ -6,15 +6,15 @@ They get also PWM signals form the microcontroller in the same range.
 
 The translation ratios depend on the respective DC/DC converter. Some ranges have a bias.
 I have recorded all values in header files:
-1) Drok6008.h
-2) Drok6012.h
-3) Juntek3603.h
-4) Juntek3806.h
+1) D6008.h
+2) D6812.h
+3) J3603.h
+4) J3806.h
 These values should give you approximately 1% accuracy out of the box.
 If you want something more precise, you will need to calibrate and match the microcontroller module to the DC/DC converter.
 To do that, you will need an adjustable power supply and a multimeter, plus a dummy load that is able to accept some current ( I am using a 1000W 220V halogen bulb from an old cinema projector ).
 
-We will for each measurement record two values low/high at known values.
+We will, for each measurement, to record two values low/high at known values.
 The results will be entered in an excel file /hardware/CalibrationTTGO&ADS1115.xlsx
 Once all values are entered, the spreadsheet calculates the respective bias/step/ and resolution values and prepares the # include parameters to update the header file.
 
