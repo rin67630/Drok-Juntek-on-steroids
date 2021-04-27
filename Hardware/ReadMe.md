@@ -34,6 +34,8 @@ There is no PCB yet, it's relativly easy to wire the adapter to a prototyping bo
 ### Top view (component side)
 ![image](https://user-images.githubusercontent.com/14197155/116315567-ffa4b880-a7b0-11eb-81fa-959041c7d8f0.png)
 
+I have put much attention to avoid wire crossings, so it should be easy to make a PCB, but i just did not yet enter into that realm.
+
 
 
 ## Schematic diagram
