@@ -25,28 +25,22 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 - 1 x 470uF 16V chem capacitor **
 
 ## Header pinouts (comparison between Juntek / Drok)
-![image](https://user-images.githubusercontent.com/14197155/114867880-95296b00-9df5-11eb-8e2a-d6cf6fb52556.png)
+![image](https://user-images.githubusercontent.com/14197155/116315430-ccfac000-a7b0-11eb-8aca-cfaca9a70dd4.png)
+
 
 
 ## Proto Wiring
 There is no PCB yet, it's relativly easy to wire the adapter to a prototyping board:
 ### Top view (component side)
-![image](https://user-images.githubusercontent.com/14197155/114868005-bd18ce80-9df5-11eb-8752-14d2cea88e81.png)  
-![image](https://user-images.githubusercontent.com/14197155/114870750-d111ff80-9df8-11eb-89b9-dd0b02c3b9ca.png)  
+![image](https://user-images.githubusercontent.com/14197155/116315567-ffa4b880-a7b0-11eb-81fa-959041c7d8f0.png)
 
-
-### Bottom view (soldering side)
-![image](https://user-images.githubusercontent.com/14197155/114870552-9740f900-9df8-11eb-82a3-4294a1313c18.png)  
-(this sketch is actual)
-![image](https://user-images.githubusercontent.com/14197155/114871039-264e1100-9df9-11eb-837d-c665b4e09eef.png)
-(Photo not completely actual, small changes against sketch exist, just given to show the effort)
 
 
 ## Schematic diagram
-![image](https://user-images.githubusercontent.com/14197155/114868268-036e2d80-9df6-11eb-8a8a-b4f55aa5cd17.png)
-you may find the editable schematio here:
-https://oshwlab.com/lazlo.lebrun/juntek-on-steroids
 
+you may find the editable schematio here:   
+https://oshwlab.com/lazlo.lebrun/juntek-on-steroids   
+(the last one only, the others are obsolete now...)  
 
 
 # V1.0 
