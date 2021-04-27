@@ -44,9 +44,10 @@ The blue part of the schematic are a provision for extensions, you may omit thes
 
 ## Schematic diagram
 
-you may find the editable schematio here:   
+you may find the editable schematic in the last version always here:   
 https://oshwlab.com/lazlo.lebrun/juntek-on-steroids   
-(the last one only, the others are obsolete now...)  
+(please use the last page only, the others are obsolete now...)  
+You have a PDF Schematic_Juntek on Steroids_2021-04.27.pdf in the Hardware folder as well.
 
 
 # V1.0 
