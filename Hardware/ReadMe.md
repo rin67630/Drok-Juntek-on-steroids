@@ -1,5 +1,5 @@
 
-This folder will contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
+This folder contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
 
 On a first approach V1.0, I have used a passive circuitry with resistors and capacitors to adapt the signal levels to the ADCs of the ESP32 and -to a certain extent- compensate the intrinsic deficits of the ESP32 ADCs.  
 (You can take a look at the remaining V1.0 description at the bottom of This file.) 
