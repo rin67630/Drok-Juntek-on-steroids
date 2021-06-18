@@ -1,12 +1,18 @@
-// Macro for Timing
+// **************Macro for Timing******************
 #define runEvery(t) for (static uint16_t _lasttime;\
                          (uint16_t)((uint16_t)millis() - _lasttime) >= (t);\
                          _lasttime += (t))
 
-// Instanciations
+//************* Instanciations**********************
 
 WiFiUDP UDP; // Creation of wifi Udp instance
 
+#ifdef BLUETOOTH
+BluetoothSerial SerialBT;
+#endif
+
+AiEsp32RotaryEncoder rotaryEncoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN, ROTARY_ENCODER_B_PIN, ROTARY_ENCODER_BUTTON_PIN, -1 , ROTARY_ENCODER_STEPS);
+  
 ThingerESP32 thing(THINGER_USERNAME, THINGER_DEVICE, THINGER_DEVICE_CREDENTIALS);
 //ThingerConsole console(thing);
 
@@ -22,10 +28,32 @@ TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
 
 ADS1115_WE adc(0x48);
 
+void rotary_onButtonClick()
+{
+  static unsigned long lastTimePressed = 0;
+  //ignore multiple press in that time milliseconds
+  if (millis() - lastTimePressed < 500)
+  {
+    buttonPressed = not buttonPressed;
+    Serial.print("buttonPressed is ");
+    Serial.println(buttonPressed);
+  }
+//  Serial.print("button pressed for ");
+//  Serial.println(millis() - lastTimePressed);
+  lastTimePressed = millis();
+}
 
-// Functions
+void rotary_loop()
+{
+  //dont print anything unless value changed
+  encoderChanged = rotaryEncoder.encoderChanged();
+  if (! encoderChanged)
+  {
+    return;
+  }
+}
 
-// WiFi Managemement
+// ************WiFi Managemement****************
 
 void getWiFi()
 {
@@ -55,17 +83,12 @@ void getWiFi()
   sprintf(charbuff, "dB, IP= %03d . %03d %03d . %03d \n",  ip[0], ip[1], ip[2], ip[3]);  Console4.printf(charbuff);
 }
 
-/*
-   WiFi.disconnect()
-   WiFi.reconnect()
-*/
-
 void myIP()
 {
   sprintf(charbuff, "IP= %03d.%03d.%03d.%03d", ip[0], ip[1], ip[2], ip[3]);
 }
 
-// Time management
+//********* Time management*************
 void getNTP()
 {
   configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER);
@@ -102,47 +125,49 @@ void buffTimeData()   // writes the time/date in Charbuff for print or display
 
 void setTimefromSerial()           // Enter time over serial
 {
-    if (Serial.available() > 0)
+  if (Serial.available() > 0)
+  {
+    // read in the user input
+    Day = Serial.parseInt();
+    Month = Serial.parseInt();
+    Year = Serial.parseInt();
+    Hour = Serial.parseInt();
+    Minute = Serial.parseInt();
+    Second = Serial.parseInt();
+    boolean validDate = (inRange(Day, 1, 31) && inRange(Month, 1, 12) && inRange(Year, 2021, 2031));
+    boolean validTime = (inRange(Hour, 0, 23) && inRange(Minute, 0, 59) && inRange(Second, 0, 59));
+    if (validTime && validDate)
     {
-      // read in the user input
-      Day = Serial.parseInt();
-      Month = Serial.parseInt();
-      Year = Serial.parseInt();
-      Hour = Serial.parseInt();
-      Minute = Serial.parseInt();
-      Second = Serial.parseInt();
-      boolean validDate = (inRange(Day, 1, 31) && inRange(Month, 1, 12) && inRange(Year, 2021, 2031));
-      boolean validTime = (inRange(Hour, 0, 23) && inRange(Minute, 0, 59) && inRange(Second, 0, 59));
-      if (validTime && validDate)
-      {
-        configTime(0, 0, "pool.ntp.org");    // Repair timezone
-        setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 3);
-        tzset();        
-        struct tm t;                         //Prepare time strucure
-        time_t t_of_day;
-        t.tm_year = Year - 1900; // Year - 1900
-        t.tm_mon = Month - 1;     // Month, where 0 = jan
-        t.tm_mday = Day ;      // Day of the month
-        t.tm_hour = Hour;
-        t.tm_min = Minute;
-        t.tm_sec = Second;
-        t.tm_isdst = -1;         // Is DST on? 1 = yes, 0 = no, -1 = unknown
-        t_of_day = mktime(&t);
-        struct timeval tv;                   //Extending to mandatory microseconds
-        tv.tv_sec = t_of_day;  // epoch time (seconds)
-        tv.tv_usec = 0;    // microseconds
-        settimeofday(&tv, 0);                //Setting Clock
-      }
+      configTime(0, 0, "pool.ntp.org");    // Repair timezone
+      setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 3);
+      tzset();
+      struct tm t;                         //Prepare time strucure
+      time_t t_of_day;
+      t.tm_year = Year - 1900; // Year - 1900
+      t.tm_mon = Month - 1;     // Month, where 0 = jan
+      t.tm_mday = Day ;      // Day of the month
+      t.tm_hour = Hour;
+      t.tm_min = Minute;
+      t.tm_sec = Second;
+      t.tm_isdst = -1;         // Is DST on? 1 = yes, 0 = no, -1 = unknown
+      t_of_day = mktime(&t);
+      struct timeval tv;                   //Extending to mandatory microseconds
+      tv.tv_sec = t_of_day;  // epoch time (seconds)
+      tv.tv_usec = 0;    // microseconds
+      settimeofday(&tv, 0);                //Setting Clock
     }
+  }
 }
 
+//**********Power saving delays****************
 void espDelay(int ms)
-{   
-    esp_sleep_enable_timer_wakeup(ms * 1000);
-    esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH,ESP_PD_OPTION_ON);
-    esp_light_sleep_start();
+{
+  esp_sleep_enable_timer_wakeup(ms * 1000);
+  esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_ON);
+  esp_light_sleep_start();
 }
 
+//*********Display*****************
 void setBrightness( int brightness)  // Display brightness 0..2047
 {
   ledcWrite(14, brightness);
@@ -150,43 +175,8 @@ void setBrightness( int brightness)  // Display brightness 0..2047
 
 // Other Math / conversions
 bool inRange(int x, int low, int high) // checks if a value is in boundaries
-{  
+{
   if (x >= low && x <= high)
     return true;
   return false;
 }
-
-#ifdef ADC_IS_ESP
-float adc2vout(unsigned int adc)     //Conversion ADC to Volt
-{
-  float volt = map(adc, VOUT_0, 1500, 0, VOUT_1500);
-  volt = volt / 1000;
-  return volt;
-}
-
-float adc2vin(unsigned int adc)     //Conversion ADC to Volt
-{
-  float volt = map(adc, VIN_0, 1500, 0, VIN_1500);
-  volt = volt / 1000;
-  return volt;
-}
-
-float adc2amp(unsigned int adc)     //Conversion ADC to Ampere
-{
-  float amp = map(adc, AOUT_0, 2047, 0, AOUT_1500);
-  amp = amp / 1000;
-  return amp;
-}
-
-unsigned int  volt2pwm(float volt)     //Conversion Volt to PWM
-{
-  unsigned int pwm = map(volt * 1000, 0, VOUT_1500, PWM_V0, PWM_V1500);
-  return pwm;
-}
-
-unsigned int amp2pwm(float amp)     //Conversion Ampere to PWM
-{
-  unsigned int pwm = map(amp * 1000, 0, AOUT_1500, PWM_A0, PWM_A1500);
-  return pwm;
-}
-#endif
