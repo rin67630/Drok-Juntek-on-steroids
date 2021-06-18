@@ -112,7 +112,7 @@ boolean NewMinute;
 boolean MinuteExpiring;
 boolean NewHour;
 boolean HourExpiring;
-boolean NeWh;
+boolean NewDay;
 boolean DayExpiring;
 
 
@@ -139,10 +139,10 @@ int ADC_VoutRaw;
 int ADC_IoutRaw;
 int ADC_VinRaw;
 int ADC_IinRaw;
-int lastADC_VOUTout;
-int lastADC_IOUTout;
-int lastADC_VOUTin;
-int lastADC_IOUTin;
+int lastADC_Vout;
+int lastADC_Iout;
+int lastADC_Vin;
+int lastADC_Iin;
 float converted_VoutRaw = 10;
 float converted_IoutRaw = 0.3;
 float converted_VinRaw = 16;
