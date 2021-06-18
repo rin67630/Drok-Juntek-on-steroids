@@ -4,6 +4,7 @@ void loop()
   yield();              //Yield for WiFi
   runEvery(125)         //125mS cf Every Macro in Functions
   {
+    if (digitalRead(BUTTON_UP) && digitalRead(BUTTON_DOWN)) nothingPressed = millis();
     menuRun();
     getEpoch();         // writes the Epoch (Numbers of seconds till 1.1.1970...
     getTimeData();      // get Second, Minute...Year.
@@ -54,7 +55,7 @@ void loop()
         break;
       case 4:
         ArduinoOTA.handle();
-        break;      
+        break;
       case 5:
         //       digitalWrite(BLULED, true);
         serialRun();
