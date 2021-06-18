@@ -8,7 +8,7 @@ void data125mSRun()
   for  (byte n = 0; n < 5; n++)   // Vout measure
   {
     int m = analogRead(ADC_VOUT);
-    ADC_VoutRaw += constrain( m, lastADC_VOUTout - 2, lastADC_VOUTout + 2); // eliminate spikes
+    ADC_VoutRaw += constrain( m, lastADC_Vout - 2, lastADC_Vout + 2); // eliminate spikes
     delay (2);
   }
   ADC_VoutRaw = ADC_VoutRaw / 5;
@@ -16,7 +16,7 @@ void data125mSRun()
   for  (byte n = 0; n < 5; n++)   // Iout measure
   {
     int m = analogRead(ADC_IOUT);
-    ADC_IoutRaw += constrain( m, lastADC_IOUTout - 3, lastADC_IOUTout + 2); // eliminate spikes
+    ADC_IoutRaw += constrain( m, lastADC_Iout - 3, lastADC_Iout + 2); // eliminate spikes
     delay (2);
   }
   ADC_IoutRaw = ADC_IoutRaw / 5;
@@ -24,7 +24,7 @@ void data125mSRun()
   for  (byte n = 0; n < 5; n++)   // Vin measure
   {
     int m = analogRead(ADC_VOUTin);
-    ADC_VinRaw += constrain( m, lastADC_VOUToutin - 2, lastADC_VOUToutin + 2); // eliminate spikes
+    ADC_VinRaw += constrain( m, lastADC_Voutin - 2, lastADC_Voutin + 2); // eliminate spikes
     delay (2);
   }
   ADC_VinRaw = ADC_VinRaw / 5;
