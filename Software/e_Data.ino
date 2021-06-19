@@ -1,9 +1,10 @@
 void data125mSRun()
 {
-#if not defined (UDP_SLAVE)
-  // === ( Measures)  ====
+#if not defined (UDP_SLAVE) //else skip the whole 125mS processing
 
-#ifdef ADC_IS_ESP
+  
+  // === ( Measures)  ====
+#ifdef ADC_IS_ESP                //Sensing with own crappy ADCs (not recommended)
   ADC_VoutRaw = ADC_IoutRaw = ADC_VinRaw = 0;
   for  (byte n = 0; n < 5; n++)   // Vout measure
   {
@@ -12,7 +13,6 @@ void data125mSRun()
     delay (2);
   }
   ADC_VoutRaw = ADC_VoutRaw / 5;
-
   for  (byte n = 0; n < 5; n++)   // Iout measure
   {
     int m = analogRead(ADC_IOUT);
@@ -30,8 +30,7 @@ void data125mSRun()
   ADC_VinRaw = ADC_VinRaw / 5;
 #endif
 
-
-#ifdef ADC_IS_ADS1115
+#ifdef ADC_IS_ADS1115             //Sensing with much better deicated ADC (highly recommended)
   adc.setVoltageRange_mV(ADS1115_RANGE_2048);
   adc.setCompareChannels(FB_Vout_PIN);
   adc.startSingleMeasurement();
@@ -59,7 +58,7 @@ void data125mSRun()
   ADC_IoutRaw = adc.getResult_mV();
 #endif
 
-#ifdef ADC_IS_SIMULATED   // Simulation of sola operatin on a battery to test displays/dashboards.
+#ifdef ADC_IS_SIMULATED          // Simulation of a solar operation on a battery to test displays/dashboards wo special hardware
   converted_VoutRaw += (dashboard.SetVout - converted_VoutRaw) / 10000;   // 1st order low pass filter on Vout
   converted_IoutRaw += (dashboard.SetIout - converted_IoutRaw ) / 50;    // 1st order low pass filter on Iout
   float mem = dashboard.Iout;
@@ -69,8 +68,7 @@ void data125mSRun()
   dashboard.Vout = converted_VoutRaw + (dashboard.Iout - dashboard.SetIout) / 20 + dashboard.Iout / 100;    // Voltage gets a small influence from current
   delta_voltage = dashboard.Vout - mem;
   dashboard.Vin = 1.5 * dashboard.Vout - 3 * dashboard.Iout;
-  dashboard.Iin = 0.8 * dashboard.Iout
-
+  dashboard.Iin = 0.8 * dashboard.Iout;
 #else
   float mem = converted_VoutRaw;
   converted_VoutRaw = (float(ADC_VoutRaw) - FB_Vout_BIAS) * FB_Vout_RES ;
@@ -86,31 +84,31 @@ void data125mSRun()
   dashboard.Iin +=  (converted_IinRaw  / 1000 - dashboard.Iin) / 8 ;  // 1rst order low pass filter
 #endif
 
-                  // === ( Control )  ====
-                  switch (dashboard.CtrlMode)
+  
+  switch (dashboard.CtrlMode)
   {
     case MANU:  // fix voltage Fix current
       dashboard.ConIout = dashboard.SetIout;
       dashboard.ConVout = dashboard.SetVout;
       break;
-    case PVFX:  // fix panel voltage
+    case PVFX:  // fix panel voltage No break: continuing with case MPPT!
+      dashboard.ConVin = dashboard.SetVin; 
+    case AUTO:  // automatic  No break: continuing with case MPPT!
+      // placeholder, code runs in the slower sections
     case MPPT:  // maximum power point tracking Perturb and Observe
       dashboard.ConIout -= (dashboard.ConVin - dashboard.Vin) *  I_value / 1000;   // Intergative input voltage controller
       dashboard.ConIout = constrain (dashboard.ConIout, 0, dashboard.SetIout);
       dashboard.ConVout = dashboard.SetVout;
-      // dashboard.SetIout = dashboard.ConIout;
-      break;
-    case AUTO:  // automatic
-      // placeholder, more code to come...
       break;
   }
 
   // === ( Fast Actions)  ====
   PWM_SetVout = dashboard.ConVout  * PWM_Vout_STEP + PWM_Vout_BIAS ;
   PWM_SetIout = dashboard.ConIout  * 10 * PWM_Iout_STEP + PWM_Iout_BIAS ;
-  ledcWrite(4, PWM_Fan );   // PWM to fan control
+  ledcWrite(4, PWM_Fan );      // PWM to fan control
   ledcWrite(0, PWM_SetVout);   // PWM to voltage control
   ledcWrite(3, PWM_SetIout);   // PWM to current control
+
 #endif  //not defined (UDP_SLAVE)
 } // end 125msRun
 
@@ -139,10 +137,21 @@ void data1SRun()
   }
 #else  // if not defined (UDP_SLAVE)
   // === ( Slow Actions)  ====
-  //PWM_Fan = map(dashboard.SetIout, FAN_AMPS_0, FAN_AMPS_100, 0 , 4095);
   PWM_Fan = (dashboard.Iout - FAN_AMPS_0) * 2000 / (FAN_AMPS_100 - FAN_AMPS_0); //Y= (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
   PWM_Fan = constrain(PWM_Fan, 11 , 2000);
   digitalWrite(ENA_PIN, (dashboard.Vin < dashboard.Vout) );   //Shutdown the DC-DC controller if Vin < Vout
+
+  VinBreadcrumb[Second] = dashboard.Vin;
+  if (Second >= 5 && dashboard.CtrlMode == AUTO)
+  {
+    //Collapse Detection  // repositionning the Vin setpoint to the value 5 seconds before the collapse
+    if (VinBreadcrumb[Second - 1] - VinBreadcrumb[Second] > collapseTreshold)          // voltage collapses)
+    {
+      dashboard.ConVin = VinBreadcrumb[Second - 5];   // MPPT setpoint to last good
+      dashboard.ConIout = dashboard.ConIout / 2;      // Halve current to catch back from the bottom
+    }
+  }
+
 #endif
 
   // === ( Dashboard and Reporting)  ====
@@ -165,25 +174,11 @@ void data1SRun()
   if (fabs(delta_current) > 50) raw_internal_resistance = fabs(delta_voltage / delta_current); // Evaluate battery internal resistance (r = dv / di) if deltaCurrent > 50mA.
   dashboard.load_internal_resistance += (raw_internal_resistance - dashboard.load_internal_resistance) / 100;
 
-  VinBreadcrumb[Second] = dashboard.Vin;
-  dashboard.ConVin = dashboard.SetVin;
-
   if (MinuteExpiring)
   {
     dashboard.VoutAvg = persistence.CycleVSum / persistence.CycleSamples;
     if (dashboard.CtrlMode == AUTO)  // Adaptive MPPT
     {
-      //Collapse Detection  // scanning the last minute and repositionning the Vin setpoint to the value 5 seconds before the collapse
-      for  (byte n = 1; n < 59; n++)
-      {
-        float d = VinBreadcrumb[n - 1] - VinBreadcrumb[n];
-        if (d > collapseTreshold && n >= 5)          // voltage collapses and enough backlog available)
-        {
-          dashboard.ConVin = VinBreadcrumb[n - 5];   // MPPT setpoint to last good 
-          dashboard.ConIout = dashboard.ConIout / 2; // Halve current to catch back from the bottom
-          break;                                     // no need to look further
-        }
-      }
       //MPPT  classical perturb and observe algorithm
       dP  = dashboard.Wout - MPPT_last_power;
       dV  = dashboard.Vin - MPPT_last_voltage;
@@ -209,10 +204,10 @@ void data1SRun()
         }
       } else {
         // throttling power
-
+        dashboard.ConVin = dashboard.SetVin;
       }
     }
-    switch (persistence.AhMode )
+    switch (persistence.AhMode)
     {
       case 1:
       case 2:
