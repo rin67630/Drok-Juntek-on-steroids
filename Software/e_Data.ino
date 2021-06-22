@@ -2,7 +2,7 @@ void data125mSRun()
 {
 #if not defined (UDP_SLAVE) //else skip the whole 125mS processing
 
-  
+
   // === ( Measures)  ====
 #ifdef ADC_IS_ESP                //Sensing with own crappy ADCs (not recommended)
   ADC_VoutRaw = ADC_IoutRaw = ADC_VinRaw = 0;
@@ -84,21 +84,18 @@ void data125mSRun()
   dashboard.Iin +=  (converted_IinRaw  / 1000 - dashboard.Iin) / 8 ;  // 1rst order low pass filter
 #endif
 
-  
+  dashboard.ConVout = dashboard.SetVout;
   switch (dashboard.CtrlMode)
   {
     case MANU:  // fix voltage Fix current
       dashboard.ConIout = dashboard.SetIout;
-      dashboard.ConVout = dashboard.SetVout;
+      dashboard.ConVin  = dashboard.SetVin;
       break;
     case PVFX:  // fix panel voltage No break: continuing with case MPPT!
-      dashboard.ConVin = dashboard.SetVin; 
-    case AUTO:  // automatic  No break: continuing with case MPPT!
-      // placeholder, code runs in the slower sections
+      VinSlow = dashboard.ConVin = dashboard.SetVin;
     case MPPT:  // maximum power point tracking Perturb and Observe
-      dashboard.ConIout -= (dashboard.ConVin - dashboard.Vin) *  I_value / 1000;   // Intergative input voltage controller
-      dashboard.ConIout = constrain (dashboard.ConIout, 0, dashboard.SetIout);
-      dashboard.ConVout = dashboard.SetVout;
+      dashboard.ConIout -= (dashboard.ConVin - dashboard.Vin) *  I_value / 1000;   // Integrative input voltage controller
+      dashboard.ConIout = constrain(dashboard.ConIout, 0.1, dashboard.SetIout);
       break;
   }
 
@@ -140,19 +137,51 @@ void data1SRun()
   PWM_Fan = (dashboard.Iout - FAN_AMPS_0) * 2000 / (FAN_AMPS_100 - FAN_AMPS_0); //Y= (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
   PWM_Fan = constrain(PWM_Fan, 11 , 2000);
   digitalWrite(ENA_PIN, (dashboard.Vin < dashboard.Vout) );   //Shutdown the DC-DC controller if Vin < Vout
+ 
 
-  VinBreadcrumb[Second] = dashboard.Vin;
-  if (Second >= 5 && dashboard.CtrlMode == AUTO)
+  VinSlow += (dashboard.Vin - VinSlow) / 30;
+  if (dashboard.CtrlMode == MPPT)  // Adaptive MPPT
   {
-    //Collapse Detection  // repositionning the Vin setpoint to the value 5 seconds before the collapse
-    if (VinBreadcrumb[Second - 1] - VinBreadcrumb[Second] > collapseTreshold)          // voltage collapses)
+    if (VinSlow - dashboard.Vin > collapseTreshold) //Collapse Detection  // temporarily increase the Vin setpoint
     {
-      dashboard.ConVin = VinBreadcrumb[Second - 5];   // MPPT setpoint to last good
-      dashboard.ConIout = dashboard.ConIout / 2;      // Halve current to catch back from the bottom
+      dashboard.ConVin = VinSlow + 1;
+      dashboard.ConIout = dashboard.ConIout * currentReduction;      // Halve current to catch back from the bottom
+      Console1.printf("Collapse prevention SetVin:%06.3f ", dashboard.ConVin);
     }
+    //MPPT  classical perturb and observe algorithm
+    dP  = dashboard.Wout - MPPT_last_power;
+    dV  = dashboard.Vin - MPPT_last_voltage;
+    MPPT_last_power = dashboard.Wout ;
+    MPPT_last_voltage = dashboard.Vin;
+    if (dashboard.Vout < dashboard.SetVout && dashboard.Iout < dashboard.SetIout)
+    {
+      if (dP > 0)
+      {
+        if (dV > 0)
+        {
+          dashboard.ConVin += MPPT_perturbe;
+        } else {
+          dashboard.ConVin -= MPPT_perturbe;
+        }
+      } else {
+        if (dV > 0)
+        {
+          dashboard.ConVin -= MPPT_perturbe;
+        } else {
+          dashboard.ConVin += MPPT_perturbe;
+        }
+      }
+    } else {
+      // throttling power
+      dashboard.ConVin = dashboard.SetVin;
+    }
+    dashboard.ConVin = constrain(dashboard.ConVin, (PANEL_MPP * 0.8), (PANEL_MPP * 1.2));
   }
 
 #endif
+
+  // === (Handling of output managment unit) ===
+  pcf8574.digitalWrite(P0, HIGH);       // here Work in progress...
 
   // === ( Dashboard and Reporting)  ====
   dashboard.Wout = dashboard.Vout * dashboard.Iout;
@@ -174,39 +203,10 @@ void data1SRun()
   if (fabs(delta_current) > 50) raw_internal_resistance = fabs(delta_voltage / delta_current); // Evaluate battery internal resistance (r = dv / di) if deltaCurrent > 50mA.
   dashboard.load_internal_resistance += (raw_internal_resistance - dashboard.load_internal_resistance) / 100;
 
+  dashboard.VoutAvg = persistence.CycleVSum / persistence.CycleSamples;
+
   if (MinuteExpiring)
   {
-    dashboard.VoutAvg = persistence.CycleVSum / persistence.CycleSamples;
-    if (dashboard.CtrlMode == AUTO)  // Adaptive MPPT
-    {
-      //MPPT  classical perturb and observe algorithm
-      dP  = dashboard.Wout - MPPT_last_power;
-      dV  = dashboard.Vin - MPPT_last_voltage;
-      MPPT_last_power = dashboard.Wout ;
-      MPPT_last_voltage = dashboard.Vin;
-      if (dashboard.Vout < dashboard.ConVout && dashboard.Iout < dashboard.ConIout)
-      {
-        if (dP > 0)
-        {
-          if (dV > 0)
-          {
-            dashboard.ConVin += MPPT_perturbe;
-          } else {
-            dashboard.ConVin -= MPPT_perturbe;
-          }
-        } else {
-          if (dV > 0)
-          {
-            dashboard.ConVin -= MPPT_perturbe;
-          } else {
-            dashboard.ConVin += MPPT_perturbe;
-          }
-        }
-      } else {
-        // throttling power
-        dashboard.ConVin = dashboard.SetVin;
-      }
-    }
     switch (persistence.AhMode)
     {
       case 1:
