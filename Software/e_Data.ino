@@ -138,15 +138,14 @@ void data1SRun()
   PWM_Fan = constrain(PWM_Fan, 11 , 2000);
   digitalWrite(ENA_PIN, (dashboard.Vin < dashboard.Vout) );   //Shutdown the DC-DC controller if Vin < Vout
  
-
-  VinSlow += (dashboard.Vin - VinSlow) / 30;
+  VinSlow += (dashboard.Vin - VinSlow) / 30;  // Strong Low-pass filter of Vin to get a memory of last good Vin upon collapses
   if (dashboard.CtrlMode == MPPT)  // Adaptive MPPT
   {
     if (VinSlow - dashboard.Vin > collapseTreshold) //Collapse Detection  // temporarily increase the Vin setpoint
     {
-      dashboard.ConVin = VinSlow + 1;
-      dashboard.ConIout = dashboard.ConIout * currentReduction;      // Halve current to catch back from the bottom
-      Console1.printf("Collapse prevention SetVin:%06.3f ", dashboard.ConVin);
+      dashboard.ConVin = VinSlow + 1;                             // Reposition Vin setpoint to last good + 1V
+      dashboard.ConIout = dashboard.ConIout * currentReduction;   // Halve current to catch back from the bottom
+     // Console1.printf("Collapse prevention SetVin:%06.3f ", dashboard.ConVin);
     }
     //MPPT  classical perturb and observe algorithm
     dP  = dashboard.Wout - MPPT_last_power;
@@ -175,9 +174,8 @@ void data1SRun()
       // throttling power
       dashboard.ConVin = dashboard.SetVin;
     }
-    dashboard.ConVin = constrain(dashboard.ConVin, (PANEL_MPP * 0.8), (PANEL_MPP * 1.2));
+    dashboard.ConVin = constrain(dashboard.ConVin, (PANEL_MPP * 0.95), (PANEL_MPP * 1.2));
   }
-
 #endif
 
   // === (Handling of output managment unit) ===
