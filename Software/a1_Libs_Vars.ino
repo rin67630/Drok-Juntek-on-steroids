@@ -12,6 +12,7 @@
 #include <ADS1115_WE.h>    // from Library (Wollewald)
 #include <Preferences.h>   //built-in  to use: https://randomnerdtutorials.com/esp32-save-data-permanently-preferences/
 #include "AiEsp32RotaryEncoder.h"
+#include "PCF8574.h"   // from library Renzo Mischienti/PCF8574 
 
 
 #ifdef BLUETOOTH
@@ -163,7 +164,9 @@ float MPPT_last_power;
 float MPPT_last_voltage;
 float dP; // power difference;
 float dV; // voltage difference;
+float VinSlow;
 float collapseTreshold = 5;
+float currentReduction = 0.5;
 float MPPT_perturbe = 0.05;
 
 // Power Integrations and mean values
@@ -175,7 +178,7 @@ float Ahout;           //Ah of the current hour
 float Vavgout;          //Avg voltage in hour 
 
 // Dashboard
-String CtrlMode_description[] = {"MANU","PVFX","MPPT","AUTO"}; // for dashboard.CtrlMode 
+String CtrlMode_description[] = {"MANU","PVFX","MPPT"}; // for dashboard.CtrlMode 
 String ChrgPhase_description[] = {"NIGH","RECO","BULK","PANL","ABSO","FLOA","EQUA","OVER","DISC","PAUS","NOBA","NOPA","EXAM"}; // for dashboard.ChrgPhase
 
 struct dashboard {
@@ -196,7 +199,7 @@ struct dashboard {
   float Whout ;     //Wh of the current cycle
   float load_internal_resistance;
   byte  ChrgPhase ; // charger phases
-  byte  CtrlMode ;  // mode of operation
+  byte  CtrlMode = 2 ;  // mode of operation
   float efficiency; // converter efficiency
   float percent_charged = 66;  // estimation 
 } dashboard;
@@ -220,7 +223,6 @@ struct persistence {
 unsigned char persistence_punning[sizeof(persistence)];  //  Array of characters as image of the structure for udp xmit/rcv
 
 // Power Statistics Arrays
-float VinBreadcrumb[60];
 float VoutAvg[32];
 float Ah[32];
 float Wh[32];
