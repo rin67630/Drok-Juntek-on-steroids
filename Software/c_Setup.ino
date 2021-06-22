@@ -10,6 +10,16 @@ void setup()
   pinMode(BUTTON_UP, INPUT_PULLUP);
   pinMode(BUTTON_DOWN, INPUT_PULLUP);
 
+  pcf8574.pinMode(P0, OUTPUT);
+  pcf8574.pinMode(P1, OUTPUT);
+  pcf8574.pinMode(P2, OUTPUT);
+  pcf8574.pinMode(P3, OUTPUT);
+  pcf8574.pinMode(P4, INPUT);
+  pcf8574.pinMode(P5, INPUT);
+  pcf8574.pinMode(P6, INPUT);
+  pcf8574.pinMode(P7, INPUT);
+  
+  
 #ifdef BLUETOOTH
   SerialBT.begin(DEVICE_NAME);
 #endif
@@ -336,6 +346,7 @@ void setup()
     I_value = thing_property["_I_value"];
     D_value = thing_property["_D_value"];
     MPPT_perturbe = thing_property["_MPPT_perturbe"];
+    currentReduction = thing_property["_currentReduction"];
 
     // Menu Settings
     displayPage    = thing_property["_displayPage"];
@@ -435,10 +446,10 @@ void setup()
 
   if (dashboard.SetVout == 0)   // still uninitialized, loading defaults
   {
-    dashboard.SetVout = phase_voltage[3];
-    dashboard.SetIout = 1.7;
-    dashboard.SetVin = PANEL_MPP;
-    lastADC_VOUTout = lastADC_IOUTout = 500;
+    dashboard.SetVout = dashboard.ConVout = phase_voltage[4];
+    dashboard.SetIout = 4;
+    dashboard.SetVin = dashboard.ConVin = PANEL_MPP;
+    lastADC_Vout = lastADC_Iout = 500;
   }
 }
 //end Setup
