@@ -112,7 +112,7 @@ void wirelessRun()
     pson thing_property;
     //Periodically retrieve the PID parameters, comment out once the PID Paramters are stable
     thing.get_property ("thing_property", thing_property);
-    P_value = thing_property["_P_value"]; I_value = thing_property["_I_value"]; D_value = thing_property["_D_value"];
+    P_value = thing_property["_P_value"]; I_value = thing_property["_I_value"]; D_value = thing_property["_D_value"]; MPPT_perturbe = thing_property["_MPPT_perturbe"];
 
     //Periodically save the values that must persist after reboot
     thing_property["Ah/hour"] = Ahout;
