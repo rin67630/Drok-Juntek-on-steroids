@@ -1,9 +1,8 @@
 void menuRun()
 {
   //  if (Year < 2020) setTimefromSerial();
-
   if (Console0.available())   inbyte = Console0.read(); //Serial input available
-  /*
+  /*  // Provision for I2C Keyboard
     Wire.requestFrom(0x08, 1)
     while (Wire.available())
     {
@@ -17,16 +16,13 @@ void menuRun()
       }
     }
   */
-
-// Process rotary switch
-
+  // Process rotary switch
   switch (displayPage)
   {
     case 0 :
       setBrightness (0);
       break;
   }
-
 
   switch (inbyte)
   {
@@ -72,7 +68,7 @@ void menuRun()
       cycleDisplay = true;
       tft.fillScreen(TFT_BLACK);
       Console1.printf ("Cycling displays\n");
-      break;   
+      break;
     case '%':  //toggle between coarse/fine settings for "+,-,<,>"
       coarse = not coarse;
       Console1.printf ("%s \n", coarse ? "coarse" : "fine");
@@ -122,13 +118,17 @@ void menuRun()
       persistence.initial_voltage = dashboard.Vout;
       thing.stream("status");
       break;
+    case 'j':  //Reset Job Maxes
+      Console1.printf ("\nReset Job Timings \n");    
+      for (int i = 14; i < 21; i++) RunMillis[i] = 0;  // Reset job timing stats
+      break;
     case 'C': //Ah Cycle 0-1-2  Stop, Run, Daily
       persistence.AhMode  ++;
       if (persistence.AhMode  >= 2) persistence.AhMode  = 0;
       displayPage = 1;
       tft.fillScreen(TFT_BLACK);
-      Console1.printf ("AhMode  changed to %i \n",persistence.AhMode );
-      break;       
+      Console1.printf ("AhMode  changed to %i \n", persistence.AhMode );
+      break;
     // ***One shot Reports**
     case 'S':  //Summary Report
       Console1.printf ("\nSummary Report\n");
@@ -137,6 +137,10 @@ void menuRun()
     case 'D':  //Debug Report
       Console1.printf ("\nDebug Report\n");
       serialPage = 'D';
+      break;
+    case 'J':  //Debug Report
+      Console1.printf ("\nJob Timing\n");
+      serialPage = 'J';
       break;
     case 'P': //Parameter List
       Console1.printf("Par.List \n Vout %6.2f CV %6.2f Iout %6.3f CC %6.3f", dashboard.Vout, dashboard.SetVout, dashboard.Iout, dashboard.SetIout );
@@ -188,6 +192,5 @@ void menuRun()
       serialPage = 'V';
       break;
   } //end switch (inbyte)
-
   inbyte = 0 ;
 }
