@@ -34,20 +34,20 @@
 #define ROTARY_ENCODER_STEPS      4  // Rotary Encoder Delta (Steps) not an input!
 
 #define UDP_TX_PACKET_MAX_SIZE 128 //increase UDP size
-#define DST_MN        60               
-#define GMT_OFFSET_SEC 3600 * TZ       
+#define DST_MN        60
+#define GMT_OFFSET_SEC 3600 * TZ
 #define DAYLIGHT_OFFSET_SEC 60 * DST_MN
 
-#ifdef BOARD_IS_WEMOS 
+#ifdef BOARD_IS_WEMOS
 #include <SSD1306Wire.h>  // from https://github.com/ThingPulse/esp8266-oled-ssd1306/
 #define OLED_W 128
 #define OLED_H 64
 #define OLED_SCL   5  // D1 GPIO5 for I2C (Wire) System Clock
 #define OLED_SDA   4  // D2 GPIO4 for I2C (Wire) System Data
 #define OLED_RST   0  //    GPIO0
-#define ADC_VOUT   36  
-#define ADC_IOUT   39  
-#define ADC_VIN    38 
+#define ADC_VOUT   36
+#define ADC_IOUT   39
+#define ADC_VIN    38
 #define ADS_VOUT   ADS1115_COMP_0_GND
 #define ADS_IOUT   ADS1115_COMP_1_GND
 #define ADS_VIN    ADS1115_COMP_2_GND
@@ -57,7 +57,7 @@
 #define PWM_I      14 // Pin SD1  (Ipwm) 
 #endif
 
-#ifdef BOARD_IS_TTGO  
+#ifdef BOARD_IS_TTGO
 #include <TFT_eSPI.h> // Hardware-specific library
 #include <SPI.h>
 #define TFT_W 160
@@ -73,13 +73,13 @@
 #define SCLK         18  //    GPIO for SPI System Clock
 #define BUTTON_UP    35
 #define BUTTON_DOWN  0
-#define ADC_VOUT     36  
-#define ADC_IOUT     39  
+#define ADC_VOUT     36
+#define ADC_IOUT     39
 #define ADC_VIN      38
 #define ADS_VOUT     ADS1115_COMP_0_GND
 #define ADS_IOUT     ADS1115_COMP_1_GND
 #define ADS P        ADS1115_COMP_2_GND
-    
+
 #define PWM_V        15  // Pin GPIO15  (Vpwm)
 #define PWM_I        13  // Pin GPIO13  (Ipwm) 
 #endif
@@ -96,6 +96,7 @@ byte Minute;
 byte Hour;
 byte Day;
 byte Month;
+unsigned int RunMillis[21];
 unsigned int Year;
 byte Weekday;
 char DayName[12];
@@ -111,6 +112,7 @@ byte slice;
 boolean Each6S;
 boolean NewMinute;
 boolean MinuteExpiring;
+boolean MinuteExpiring2;
 boolean NewHour;
 boolean HourExpiring;
 boolean NewDay;
@@ -142,8 +144,6 @@ int ADC_VinRaw;
 int ADC_IinRaw;
 int lastADC_Vout;
 int lastADC_Iout;
-int lastADC_Vin;
-int lastADC_Iin;
 float converted_VoutRaw = 10;
 float converted_IoutRaw = 0.3;
 float converted_VinRaw = 16;
@@ -160,14 +160,17 @@ float I_value = 3;     //Integrative Gain
 float D_value = 1;     //Derivative Gain
 
 // MPPT
+unsigned int collapseTimer;
 float MPPT_last_power;
 float MPPT_last_voltage;
+float MPPT_voc;
+float fractionVoc = 0.9;
 float dP; // power difference;
 float dV; // voltage difference;
 float VinSlow;
+float IoutSlow;
 float collapseTreshold = 5;
-float currentReduction = 0.5;
-float MPPT_perturbe = 0.05;
+float MPPT_perturbe = 0.025;
 
 // Power Integrations and mean values
 float delta_current = 1;
@@ -175,25 +178,25 @@ float delta_voltage = 1;
 float raw_internal_resistance;
 float Whout;           //Wh of the current hour
 float Ahout;           //Ah of the current hour
-float Vavgout;          //Avg voltage in hour 
+float Vavgout;          //Avg voltage in hour
 
 // Dashboard
-String CtrlMode_description[] = {"MANU","PVFX","MPPT"}; // for dashboard.CtrlMode 
-String ChrgPhase_description[] = {"NIGH","RECO","BULK","PANL","ABSO","FLOA","EQUA","OVER","DISC","PAUS","NOBA","NOPA","EXAM"}; // for dashboard.ChrgPhase
+String CtrlMode_description[] = {"MANU", "PVFX", "MPPT"}; // for dashboard.CtrlMode
+String ChrgPhase_description[] = {"NIGH", "RECO", "BULK", "PANL", "ABSO", "FLOA", "EQUA", "OVER", "DISC", "PAUS", "NOBA", "NOPA", "EXAM"}; // for dashboard.ChrgPhase
 
 struct dashboard {
-// Measures
+  // Measures
   float Vout = 0;
   float Iout = 0;
   float Wout = 0;
   float Vin = 0;
   float Iin = 0;
   float SetVout ;   //manual output voltage setpoint
-  float ConVout ;   //controlled  output voltage setpoint  
+  float ConVout ;   //controlled  output voltage setpoint
   float SetIout ;   //manual output current setpoint
   float ConIout ;   //controlled output current setpoint
   float SetVin ;    //manual input voltage setpoint
-  float ConVin ;    //controlled input voltage setpoint   
+  float ConVin ;    //controlled input voltage setpoint
   float VoutAvg = 0;//averaged output voltage
   float Ahout ;     //Ah of the current cycle
   float Whout ;     //Wh of the current cycle
@@ -201,13 +204,13 @@ struct dashboard {
   byte  ChrgPhase ; // charger phases
   byte  CtrlMode = 2 ;  // mode of operation
   float efficiency; // converter efficiency
-  float percent_charged = 66;  // estimation 
+  float percent_charged = 66;  // estimation
 } dashboard;
 unsigned char dashboard_punning[sizeof(dashboard)];  //  Array of characters as image of the structure for udp xmit/rcv
 
 // Reset safe initialisation
 struct persistence {
-  float initial_voltage; 
+  float initial_voltage;
   float voltageAt0H ;
   float voltageDelta ;
   float HourVSum;
@@ -227,9 +230,22 @@ float VoutAvg[32];
 float Ah[32];
 float Wh[32];
 
-
 //*** Buffers ***
 static char charbuff[80];    //Char buffer for many functions
+
+#ifdef FET_EXTENSION
+float ADC_IExt0;
+float ADC_IExt1;
+float ADC_IExt2;
+float ADC_IExt3;
+
+boolean Out_IExt0;
+boolean Out_IExt1;
+boolean Out_IExt2;
+boolean Out_IExt3;
+
+
+#endif
 
 #ifdef BLUETOOTH
 //*** Aliases for serial communication***
