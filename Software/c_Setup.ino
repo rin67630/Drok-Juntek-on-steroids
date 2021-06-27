@@ -10,6 +10,8 @@ void setup()
   pinMode(BUTTON_UP, INPUT_PULLUP);
   pinMode(BUTTON_DOWN, INPUT_PULLUP);
 
+
+#ifdef FET_EXTENSION
   pcf8574.pinMode(P0, OUTPUT);
   pcf8574.pinMode(P1, OUTPUT);
   pcf8574.pinMode(P2, OUTPUT);
@@ -18,8 +20,9 @@ void setup()
   pcf8574.pinMode(P5, INPUT);
   pcf8574.pinMode(P6, INPUT);
   pcf8574.pinMode(P7, INPUT);
-  
-  
+#endif
+
+
 #ifdef BLUETOOTH
   SerialBT.begin(DEVICE_NAME);
 #endif
@@ -37,13 +40,13 @@ void setup()
   rotaryEncoder.setEncoderValue(0);
   rotaryEncoder.disableAcceleration();
 
-#ifdef ADC_IOUTS_ADS1115
+#ifdef ADC_IS_ADS1115
   // Settings for ADC
   if (not adc.init())
   {
     Console4.println("ADS1115 not connected!");
   } else {
-    adc.setConvRate   (ADS1115_250_SPS);
+    adc.setConvRate   (ADS1115_475_SPS);
     adc.setMeasureMode(ADS1115_SINGLE);   //comment line/change parameter to change mode
   }
 #endif
@@ -203,7 +206,8 @@ void setup()
       out = persistence.AhMode ;
     };
 
-    thing["reset_all"] << [](pson & in) {   //not yet used: reset all values.
+    thing["reset_all"] << [](pson & in)
+    { //not yet used: reset all values.
       if (in.is_empty())
       {
         yield();
@@ -212,7 +216,8 @@ void setup()
       }
     };
 
-    thing["reboot"] << [](pson & in) {   //not yet used: reboot.
+    thing["reboot"] << [](pson & in)
+    { //not yet used: reboot.
       if (in.is_empty())
       {
         yield();
@@ -220,6 +225,45 @@ void setup()
         inbyte = 'Z';
       }
     };
+
+#ifdef FET_EXTENSION
+    thing["FET0"] << [](pson & in) // 2,5A channel (12V load)
+    {
+      if (in.is_empty())
+      {
+        in = Out_IExt0;
+      } else {
+        Out_IExt0 = in;
+      }
+    };
+    thing["FET1"] << [](pson & in) // 2,5A channel (19V boost)
+    {
+      if (in.is_empty())
+      {
+        in = Out_IExt1;
+      } else {
+        Out_IExt1 = in;
+      }
+    };
+    thing["FET2"] << [](pson & in) // 10A channel (Grid-tied converter)
+    {
+      if (in.is_empty())
+      {
+        in = Out_IExt2;
+      } else {
+        Out_IExt2 = in;
+      }
+    };
+    thing["FET3"] << [](pson & in) // 2,5A channel 38V boost)
+    {
+      if (in.is_empty())
+      {
+        in = Out_IExt3;
+      } else {
+        Out_IExt3 = in;
+      }
+    };
+#endif
 
     // Radio button style processing with sliders: Slide value is integer, so take value and issue description out of String array
     thing["CtrlMode"]  = [](pson & in, pson & out)
@@ -278,9 +322,11 @@ void setup()
       out["Iin"]             = dashboard.Iin ;
       out["Iout"]            = dashboard.Iout ;
       out["SetVout"]         = dashboard.SetVout ;
+      out["ConVin"]          = dashboard.ConVin ;
+      out["ConIout"]         = dashboard.ConIout ;
       out["SetVin"]          = dashboard.SetVin ;
       out["SetIout"]         = dashboard.SetIout ;
-      out["VoutAvgout"]      = dashboard.Vout - persistence.initial_voltage;
+      out["DeltaVout"]      = dashboard.Vout - persistence.initial_voltage;
       out["Ohm"]             = dashboard.load_internal_resistance ;
       out["Charge%"]         = dashboard.percent_charged ;
     };
@@ -346,7 +392,7 @@ void setup()
     I_value = thing_property["_I_value"];
     D_value = thing_property["_D_value"];
     MPPT_perturbe = thing_property["_MPPT_perturbe"];
-    currentReduction = thing_property["_currentReduction"];
+    fractionVoc = thing_property["_fractionVoc"];
 
     // Menu Settings
     displayPage    = thing_property["_displayPage"];
