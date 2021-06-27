@@ -1,7 +1,6 @@
 void displayRun()
 {
   yield();
-
   rotary_onButtonClick();
   encoderChanged = rotaryEncoder.encoderChanged();
   if (not digitalRead(BUTTON_UP) || (not buttonPressed && encoderChanged > 0))
@@ -162,11 +161,11 @@ void displayRun()
       tft.setTextColor(TFT_VERMILON, TFT_BLACK) ; tft.setCursor(0, 55, 4);
       sprintf(charbuff, "%06.3fA ", dashboard.Iout); tft.println(charbuff);
       tft.setTextColor(TFT_VERMILON, TFT_BLACK) ; tft.setCursor(110, 55, 4);
-      sprintf(charbuff, "%06.2fAh ", Ahout); tft.println(charbuff);
+      sprintf(charbuff, "%06.2fAh ", dashboard.Ahout); tft.println(charbuff);
       tft.setTextColor(TFT_BLUE, TFT_BLACK); tft.setCursor(0, 85, 4);
       sprintf(charbuff, "%06.2fW ", dashboard.Wout); tft.println(charbuff);
       tft.setTextColor(TFT_BLUE, TFT_BLACK); tft.setCursor(110, 85, 4);
-      sprintf(charbuff, "%06.1fWh ", Whout); tft.println(charbuff);
+      sprintf(charbuff, "%06.1fWh ", dashboard.Whout); tft.println(charbuff);
       break;
 
     case 6 :     // BAT Display
@@ -271,6 +270,7 @@ void displayRun()
     ▉ TFT_SILVER (#C0C0C0)
     ▉ TFT_SKYBLUE (#87CEEB)
   */
+#endif //BOARD_IS_TTGO
 
 #ifdef BOARD_IS_WEMOS
   display.clear();
@@ -298,7 +298,6 @@ void displayRun()
   display.drawString(75, 50, Runtime);
   display.fillRect(0, 63, Second * 2, 1); //display seconds progress bar
   display.display();
+#endif //BOARD_IS_WEMOS
 
-#endif
-#endif
 }
