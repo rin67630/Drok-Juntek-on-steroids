@@ -1,13 +1,11 @@
 void wirelessRun()
 {
-  if (WiFi.status() != WL_CONNECTED)
+if (WiFi.status() != WL_CONNECTED)
   {
     WiFi.disconnect();
     WiFi.reconnect();
   }
 #if defined (THINGER)
-
-  MillisMem = millis();
   thing.handle();
   if (NewMinute)
   {
@@ -108,11 +106,13 @@ void wirelessRun()
 #else
     yield();
 #endif
-
     pson thing_property;
     //Periodically retrieve the PID parameters, comment out once the PID Paramters are stable
     thing.get_property ("thing_property", thing_property);
-    P_value = thing_property["_P_value"]; I_value = thing_property["_I_value"]; D_value = thing_property["_D_value"]; MPPT_perturbe = thing_property["_MPPT_perturbe"];
+    P_value = thing_property["_P_value"]; 
+    I_value = thing_property["_I_value"]; 
+    D_value = thing_property["_D_value"]; 
+    fractionVoc = thing_property["_fractionVoc"];
 
     //Periodically save the values that must persist after reboot
     thing_property["Ah/hour"] = Ahout;
