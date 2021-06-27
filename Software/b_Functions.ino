@@ -12,7 +12,7 @@ BluetoothSerial SerialBT;
 #endif
 
 AiEsp32RotaryEncoder rotaryEncoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN, ROTARY_ENCODER_B_PIN, ROTARY_ENCODER_BUTTON_PIN, -1 , ROTARY_ENCODER_STEPS);
-  
+
 ThingerESP32 thing(THINGER_USERNAME, THINGER_DEVICE, THINGER_DEVICE_CREDENTIALS);
 //ThingerConsole console(thing);
 
@@ -28,6 +28,15 @@ TFT_eSPI tft = TFT_eSPI();       // Invoke custom library
 
 ADS1115_WE adc(0x48);
 
+#ifdef FET_EXTENSION
+ADS1115_WE adc2(0x49);
+PCF8574 pcf8574(0x39); //PCF address, initial value
+//PCF8574 pcf8574(0x38, INTERRUPTED_PIN, updateEncoder);
+//pcf8574.begin();// Start library
+#endif
+
+
+
 void rotary_onButtonClick()
 {
   static unsigned long lastTimePressed = 0;
@@ -38,8 +47,8 @@ void rotary_onButtonClick()
     Serial.print("buttonPressed is ");
     Serial.println(buttonPressed);
   }
-//  Serial.print("button pressed for ");
-//  Serial.println(millis() - lastTimePressed);
+  //  Serial.print("button pressed for ");
+  //  Serial.println(millis() - lastTimePressed);
   lastTimePressed = millis();
 }
 
