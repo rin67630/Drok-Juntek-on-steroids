@@ -4,22 +4,21 @@
 
 ## Motherboard right connector
 Luckily, the motherboard right connector has the same pinout for every DC/DC converter:
-from the top to the bottom you have a 4 ground connections, 2 +5V connections ( that can approximately supply 100mA) and Tx-Rx pins, that are forwarded to the corresponding Tx-Rx connector on the motherboard.
-2 capacitors C8 and C7 will reduce the impact of the power surges from the RF-transmission to the motherboard.
+from the top to the bottom you have a 4 ground connections, 2 +5V connections ( that can approximately supply 100mA) and Tx-Rx pins, that are forwarded to the corresponding Tx-Rx connector on the motherboard.  
+2 capacitors C8 and C7 will reduce the impact of the power surges from the RF-transmission to the motherboard.  
 ![image](https://user-images.githubusercontent.com/14197155/124722731-9f499a00-df0a-11eb-9a4a-693cd53e60e0.png)
 
 
 ## Motherboard left connector
-the motherboard left connector is not completely standardised,
-from the top to the bottom the three first pins carry the feedback signals for the output voltage and the output current at various locations, depending on the board make. One board has a feedback of the input voltage, most don't.
-For that reason, there adapter board will have some jumpers to marshall the signals accordingly to the A2, A3, A1 analog inputs of the ADS1115. 
+the motherboard left connector is not completely standardised, from the top to the bottom the three first pins carry the feedback signals for the output voltage and the output current at various locations, depending on the board make. One board has a feedback of the input voltage, most don't.  
+For that reason, there adapter board will have some jumpers to marshall the signals accordingly to the A2, A3, A1 analog inputs of the ADS1115.  
 ![image](https://user-images.githubusercontent.com/14197155/124722640-87721600-df0a-11eb-9631-32bf3374cefa.png)
 
 ## Feedback of Input voltage or current
-On the Juntek 3603, the feedback of the input voltage already exists on pin3 of the left connector.
-On the Juntek 3806, the feedback of the input voltage is not provided, but the pin 3 of the left connector is free, so one can solder a feedback resistor on the motherboard.
-On DROK modules, the pin 3 is not free, so one must go over a side header to provide voltage feedback.
-The current feedback ( optional ) is always to be provided over a side header to ADC0.
+On the Juntek 3603, the feedback of the input voltage already exists on pin3 of the left connector.  
+On the Juntek 3806, the feedback of the input voltage is not provided, but the pin 3 of the left connector is free, so one can solder a feedback resistor on the motherboard.   
+On DROK modules, the pin 3 is not free, so one must go over a side header to provide voltage feedback.  
+The current feedback ( optional ) is always to be provided over a side header to ADC0.     
 
 ## Extension headers
 
