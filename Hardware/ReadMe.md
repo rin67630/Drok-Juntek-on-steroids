@@ -77,7 +77,9 @@ The components marked (**) are not critical +- 50% are possible.
 ![image](https://user-images.githubusercontent.com/14197155/111206570-d34e2780-85c8-11eb-8fb4-a482fadf0cb9.png) 
 ![image](https://user-images.githubusercontent.com/14197155/111217876-59bd3600-85d6-11eb-8595-dd1af2165e28.png)
 
-(the PCB layout is simple, even single layer, but i never made a Gerber file, if someone would like to contribute...)   
+(the PCB layout is simple, even single layer, but i never made a Gerber file, if someone would like to contribute...)  
+n.b.: *you may have noticed an apparent discrepancy between the jumper settings on the prototype pictures and the jumper settings in the schematic diagram:
+the difference is only that I had to move the pin connectors by one 2.54 step upwards for mechanical reasons and did not want to redraw the diagram accordingly.  
 
 ## Schematic diagram
 https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
