@@ -13,7 +13,7 @@ The 4 push-buttons to control the operations are clumsy and the seven segment di
 ![image](https://user-images.githubusercontent.com/14197155/124734018-08360f80-df15-11eb-9a24-05381d302f41.png)
 
 
-My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
+My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,
 give full internet control and provide tons of features... 
 
 Drok and Juntek are using the same analog control principle:  on the left side, the connector gets two PWM control inputs (voltage and current) and deliver two corresponding analog control feedback outputs all in the range 0..2,1V.  
