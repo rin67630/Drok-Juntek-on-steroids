@@ -45,7 +45,3 @@ I have foreseen the extension connectors just to make an eventual PCB future-pro
 ![image](https://user-images.githubusercontent.com/14197155/124719854-dec2b700-df07-11eb-8c97-e55b770270be.png)
 
 
-
-![image](https://user-images.githubusercontent.com/14197155/124720246-3c570380-df08-11eb-9598-6fd8f5a8d918.png)
-
-
