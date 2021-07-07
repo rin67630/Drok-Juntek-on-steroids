@@ -42,6 +42,6 @@ The (potential) applications are:
 - and even the potential ability to control a second Drok either for a second source, or a voltage controlled load (e.g. the Juntek 3806 buck boost DC/DC  converter to charge secondary batteries at lower higher voltages)
 - everything else from my mad imagination...
 I have foreseen the extension connectors just to make an eventual PCB future-proof.
-![image](https://user-images.githubusercontent.com/14197155/124719854-dec2b700-df07-11eb-8c97-e55b770270be.png)
+![image](https://user-images.githubusercontent.com/14197155/124784488-44359880-df46-11eb-983a-d6f32ef3adf5.png)
 
 
