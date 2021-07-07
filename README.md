@@ -10,7 +10,7 @@ Juntek and Drok (maybe others) sell some interesting cheap programmable buck con
 
 They are all controlled by a pluggable control board, which stages a STM microcontroller and a 4x7 digit LED display.  
 The 4 push-buttons to control the operations are clumsy and the seven segment display is everything but comfortable.  
-![image](https://user-images.githubusercontent.com/14197155/111429960-fe846400-86f9-11eb-8274-4d3d04928e7a.png)![image](https://user-images.githubusercontent.com/14197155/124731642-b4c2c200-df12-11eb-8440-2afa12737ebd.png)
+![image](https://user-images.githubusercontent.com/14197155/124734018-08360f80-df15-11eb-9a24-05381d302f41.png)
 
 
 My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
