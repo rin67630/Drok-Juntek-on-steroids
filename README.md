@@ -16,7 +16,6 @@ The 4 push-buttons to control the operations are clumsy and the seven segment di
 My idea was to get rid of the original control module, and to replace it by an ESP32 WiFi enabled microcontroller in order to boost it's usability,   
 give full internet control and provide tons of features... 
 
-Some Drok modules provide a serial port to remote control the operation, the Juntek do not. 
 Drok and Juntek are using the same analog control principle:  on the left side, the connector gets two PWM control inputs (voltage and current) and deliver two corresponding analog control feedback outputs all in the range 0..2,1V.  
 On the right side, the connector provides GND and 5V at ~200mA.  
 
@@ -29,14 +28,14 @@ Recycling a big part of the software resources of https://github.com/rin67630/So
 
 ### Power supply mode
 The power supply is controllable by:   
-- USB -Serial with a simple menu to change the set-points control, the OLED display variants, the cherging profiles and print reports.  
+- USB -Serial with a simple menu to change the set-points control, the OLED display variants, the charging profiles and print reports.  
 - from everywhere in the world using the cloud dashboard service of https://thinger.io with a free limited maker account.  
 This is just an example, much more will come:  
 ![image](https://user-images.githubusercontent.com/14197155/121425793-16732900-c973-11eb-972a-bc29875c6cbc.png)
 ![image](https://user-images.githubusercontent.com/14197155/121425599-e1ff6d00-c972-11eb-9692-d7096f89d966.png)
  
-- an IR remote control.  
-- remote screen replication  
+- using the integrated buttons of the TTGO and/or an optional rotary knob to make it more comfortable to control.  
+- can optionally be remotely controlled by another "slave" TTGO module in the same WiFi area.
 
 Over the serial port and thinger.io, many reports will be made available:  
 - Energy report by the second, the minute, the hour.
@@ -45,6 +44,9 @@ Over the serial port and thinger.io, many reports will be made available:
 - ...  
 
 Beside the usual constant voltage and constant current set points, I will provide many interesting things that are not common, but very useful:
+
+### MPPT Solar charger:
+cf: https://github.com/rin67630/Soft-Power2-MPPT
 
 ### Battery Charger mode: (1)  
 - charging profiles for many battery chemistries
