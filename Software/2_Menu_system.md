@@ -102,6 +102,22 @@ Thu Apr 15 15:49:19 2021
 ### 'T': // Enter time
 this command is only valued off-line, with an Internet connection the time is given from the NTP server.
 
+### "J" // Job timing report
+this report is intended to measure the milliseconds of every job:
+```
+Job Timing
+
+Job Durations(mS) Current - Max
+Menu:000 - 000 
+Fast:039 - 040
+Slow:000 - 000
+Stat:000 - 000
+Disp:026 - 034
+Seri:001 - 001
+Wifi:000 - 023
+```
+
+
 
 ## Display control commands
 You will be able to control which information is displayed on the TFT Display:  
