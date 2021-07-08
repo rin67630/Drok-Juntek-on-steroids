@@ -1,6 +1,17 @@
 #define J3603
 //#define D6008
 //#define D6012
+//#define Dummy
+
+#ifdef Dummy
+#define DEVICE_NAME "SteroidsADS"
+#define THINGER_USERNAME           "UserName1"      // "SoafPower1  SoftPower1" 
+//#define WRITE_BUCKETS         // comment out. if this is the second device)
+//#include "D6012.h"       // DROK 6012 Motherboard interface parameters
+#include "Dummy.h"
+#define PANEL_MPP  17    // Maximum Power Point Voltage
+#define PANEL_WATT 100   // Maximum Power
+#endif
 
 #ifdef D6012
 #define DEVICE_NAME "SteroidsADS"
