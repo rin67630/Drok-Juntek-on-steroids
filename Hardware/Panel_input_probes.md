@@ -23,4 +23,9 @@ The 10A Schottky diode will be directly soldered to a fork terminal for screws. 
 I have used two 0.05 smd resistors in // (for mechanical stabilty) soldered to a fork terminal and to the input wire at the other side (the fork is folded to fit into the tube and unfolded after) then glued everything in a hard plastic tube. On the shunt, i have a 1kΩ resistor in series to limit the damage if the shunt burns through. Finally both sides are wrapped with thermo sleeves:
 
 ![image](https://user-images.githubusercontent.com/14197155/125688707-2d47358a-3885-45ed-a5c6-89df81461a5f.png)
-![image](https://user-images.githubusercontent.com/14197155/125688759-1976a904-6b5b-4796-bc14-b44e16530f4c.png)
+![image](https://user-images.githubusercontent.com/14197155/125688759-1976a904-6b5b-4796-bc14-b44e16530f4c.png)  :
+
+
+And finally going to the side of my adapter board:  
+![image](https://user-images.githubusercontent.com/14197155/125690822-f002b1c7-999f-4edc-b206-a61bc316b337.png)
+
