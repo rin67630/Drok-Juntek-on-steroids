@@ -74,8 +74,8 @@ The only thing you need, is a Wifi connection.
 
 (1) not yet finalized...
 
-You are invited to discuss your personal project on Discord:
-https://discord.gg/gcmSpHH3bX  (Multi purpose Hardware)
-https://discord.gg/eY5H6PMqfk  (Specific application as a MPPT Solar Charge Controller)
+You are invited to discuss your personal project on Discord:  
+https://discord.gg/gcmSpHH3bX  (Multi purpose Hardware)  
+https://discord.gg/eY5H6PMqfk  (Specific application as a MPPT Solar Charge Controller).  
 
-cu there!
+Cu there!
