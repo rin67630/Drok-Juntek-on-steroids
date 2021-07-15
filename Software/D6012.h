@@ -6,7 +6,7 @@
 // BIAS is the value at 0, 
 // STEP is the number of PVM or mV feed_back units to increase by 1V or 100mA
 // RES is the mV, mA change for one unit of feedback or PWM.I2C (Grove) connector
-// Panel Volt FB resistor is 5.0M Ohm (external wire)
+// Panel Volt FB resistor is 3.0M Ohm (external wire)
 
 #define BOARD "Drok6012"
 
