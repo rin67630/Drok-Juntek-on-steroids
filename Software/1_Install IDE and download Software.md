@@ -9,9 +9,7 @@ Start the library manager: Tools/Manage Libraries...
 You need  
 - ArduinoJson by Benoit Blanchon
 - TFT_eSPI.h from the Arduino library repository or, for the OLED version ESP32...OLED driver, by Thingpulse and Fabrice Weinberg
-
-- thinger.io by Alvaro Luis Bustamente
-The other libraries should be already present.
+- thinger.io by Alvaro Luis Bustamente ( **! install that lib in V2.14.0**)
 
 ## Download instructions
 You can download all the files from the main page of Drok-Juntek-on-steroids upon clicking on the green Code button and selecting "download Zip".    
