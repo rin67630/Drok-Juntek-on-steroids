@@ -16,19 +16,21 @@ If you want something more precise, you will need to calibrate and match the mic
 To do that, you will need an adjustable power supply and a multimeter, plus a dummy load that is able to accept some current  
 ( I am e.g. using a 1000W 220V halogen bulb from an old cinema projector ).
 
-We will, for each measurement, to record two values low/high at known values.
-The results will be entered in an excel file /hardware/CalibrationTTGO&ADS1115.xlsx
+For each Analog parameter, we will measure and record two readings in the spread sheet TTGO&ADS1115.xlsx  
 Once all values are entered, the spreadsheet calculates the respective bias/step/ and resolution values and prepares the # include parameters to update the header file.
+
 
 ## Calibrating the input voltage range
 Open a serial terminal program e.g. the serial monitor of the Arduino IDE.
-- Enter the command "sD" to call the debugging report every second.
+- Enter the command "sX" to call the debugging report every second.  
 - Give exactly 10 V at the input of your DC/DC converter.
 The report should print something like:
 ```
-23:33:37.908 -> ADC_VinRaw:625 Vin:20.978 ADC_VoutRaw:418 Vout:14.324 ADC_IoutRaw:116 Iout:00.018 PWM_Vset:0260 Vset:14.400 PWM_Cset:0130 Iset:00.700 
-23:33:38.911 -> ADC_VinRaw:625 Vin:20.975 ADC_VoutRaw:418 Vout:14.329 ADC_IoutRaw:113 Iout:00.021 PWM_Vset:0260 Vset:14.400 PWM_Cset:0130 Iset:00.700 
-23:33:39.914 -> ADC_VinRaw:626 Vin:20.979 ADC_VoutRaw:418 Vout:14.329 ADC_IoutRaw:110 Iout:00.009 PWM_Vset:0260 Vset:14.400 PWM_Cset:0130 Iset:00.700 
+16:33:57.442 -> eXcel Calibration Report
+16:33:57.865 -> ADC_VinRaw:0 Vin:03.612 ADC_IinRaw:0 Iin:03.198 ADC_VoutRaw:0 Vout:10.403 ADC_IoutRaw:0 Iout:03.998 PWM_SetVout:0707 SetVout:14.400 PWM_SetIout:0648 SetIout:04.000 PWM_Fan:2000 
+16:33:58.857 -> ADC_VinRaw:0 Vin:03.625 ADC_IinRaw:0 Iin:03.196 ADC_VoutRaw:0 Vout:10.406 ADC_IoutRaw:0 Iout:03.994 PWM_SetVout:0707 SetVout:14.400 PWM_SetIout:0648 SetIout:04.000 PWM_Fan:2000 
+16:33:59.849 -> ADC_VinRaw:0 Vin:03.639 ADC_IinRaw:0 Iin:03.193 ADC_VoutRaw:0 Vout:10.409 ADC_IoutRaw:0 Iout:03.991 PWM_SetVout:0707 SetVout:14.400 PWM_SetIout:0648 SetIout:04.000 PWM_Fan:2000 
+16:34:00.884 -> ADC_VinRaw:0 Vin:03.653 ADC_IinRaw:0 Iin:03.191 ADC_VoutRaw:0 Vout:10.412 ADC_IoutRaw:0 Iout:03.988 PWM_SetVout:0707 SetVout:14.400 PWM_SetIout:0648 SetIout:04.000 PWM_Fan:2000  
 ```
 - Record the value of ADC_VinRaw: in the spreadsheet in cell D19.
 - Give exactly 30 V at the input of your DC/DC converter.
@@ -59,7 +61,7 @@ e.g.:
 
 ![image](https://user-images.githubusercontent.com/14197155/115987923-82faba00-a5b7-11eb-8b44-a7be760487db.png)
 
-into
+into the respective header file of the converter used:
 
 ```
 // #include Drok6008
@@ -94,13 +96,21 @@ into
 #define FB_Iout_RES	7.0796
 
 
+#define ADS_Ch0_Range  ADS1115_RANGE_0256
+#define ADS_Ch1_Range  ADS1115_RANGE_2048
+#define ADS_Ch2_Range  ADS1115_RANGE_2048
+#define ADS_Ch3_Range  ADS1115_RANGE_2048
 #define FB_Vout_PIN  ADS1115_COMP_3_GND
 #define FB_Iout_PIN  ADS1115_COMP_2_GND
 #define FB_Vin_PIN   ADS1115_COMP_1_GND
-#define PWM_Iout_PIN 4
-#define PWM_Vout_PIN 5
-#define ENA_PIN   12
-#define FAN_PIN   2
+#define FB_Iin_PIN   ADS1115_COMP_0_GND
+
+#define VIN_MAX      65
+#define VOUT_MAX     60
+#define IOUT_MAX     8
+
+#define FAN_AMPS_0   1.5
+#define FAN_AMPS_100 5 
 ```
 
 
