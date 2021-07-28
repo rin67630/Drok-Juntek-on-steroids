@@ -16,7 +16,7 @@ If you want something more precise, you will need to calibrate and match the mic
 To do that, you will need an adjustable power supply and a multimeter, plus a dummy load that is able to accept some current  
 ( I am e.g. using a 1000W 220V halogen bulb from an old cinema projector ).
 
-For each Analog parameter, we will measure and record two readings in the spread sheet TTGO&ADS1115.xlsx  
+For each Analog parameter, we will measure and record two readings in the spreadsheet TTGO&ADS1115.xlsx  
 Once all values are entered, the spreadsheet calculates the respective bias/step/ and resolution values and prepares the # include parameters to update the header file.
 
 
