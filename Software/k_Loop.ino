@@ -1,10 +1,9 @@
 void loop()
 {
-  // run when idle.
+// run when idle.
   yield();              //Yield for WiFi
   runEvery(125)         //125mS cf Every Macro in Functions
   {
-    if (digitalRead(BUTTON_UP) && digitalRead(BUTTON_DOWN)) nothingPressed = millis();
     MillisMem = millis();
     RunMillis[0] = 0;
     menuRun();

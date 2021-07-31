@@ -1,17 +1,63 @@
 void setup()
 {
+
+  delay(5000);
   // Serial initialisation
   Serial.begin (SERIAL_SPEED); // On USB port
-  Serial.setDebugOutput(true);
-  Wire.begin(OLED_SDA, OLED_SCL);
-  Console4.printf("Resetted! \nDevice name: %s \n", DEVICE_NAME);
-  Console4.printf("ESP-Karajan framework at work, Serial @ %u Baud\nTry connecting to %s ", SERIAL_SPEED, WIFI_SSID);
+  // Serial.setDebugOutput(true);
 
+#ifdef CONTR_IS_TTGO
+  Wire.begin(I2C_SDA, I2C_SCL);
+#endif
+
+#ifdef CONTR_IS_WEMOS
+  Wire.begin(I2C_SDA, I2C_SCL);
+#endif
+
+#ifdef CONTR_IS_HELTEC
+  Wire.begin(SDA_OLED, SCL_OLED);
+  //  Heltec.begin(false /*DisplayEnable Enable*/, false /*LoRa Disable*/, true /*Serial Enable*/);
+  display.init();
+  display.setContrast(160);
+  display.flipScreenVertically();
+  display.setFont(ArialMT_Plain_10);
+  display.setTextAlignment(TEXT_ALIGN_LEFT);
+  display.setFont(ArialMT_Plain_10);
+  display.display();
+  uint64_t chipId = ESP.getEfuseMac(); //The chip ID is essentially its MAC address(length: 6 bytes).
+  Serial.printf("ESP32ChipID=%04X ", (uint16_t)(chipId >> 32)); //print High 2 bytes
+  Serial.printf("%08X\n", (uint32_t)chipId); //print Low 4b
+#endif
+
+  Console4.printf("\n\n\n\n\nDevice %s resetted!\n", DEVICE_NAME);
+  Console4.printf("ESP-Karajan framew. ready: Serial @ %u Baud\n", SERIAL_SPEED);
+
+  Console4.printf("Initializing IO \n");
   pinMode(BUTTON_UP, INPUT_PULLUP);
   pinMode(BUTTON_DOWN, INPUT_PULLUP);
+  pinMode(ROTARY_ENCODER_A_PIN, INPUT_PULLDOWN);
+  pinMode(ROTARY_ENCODER_B_PIN, INPUT_PULLDOWN);
+  pinMode(ROTARY_ENCODER_BUTTON_PIN, INPUT_PULLUP);
+  pinMode(I2C_RST, OUTPUT);
+  pinMode(ENA_PIN, OUTPUT);
+  digitalWrite(ENA_PIN, LOW); // enable DC/DC converter
 
+  // Settings for PWM  (Usage: ledcWrite(channel, dutycycle);
+  Console4.printf("Initializing PWM \n");
+  ledcSetup(0, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Voltage
+  ledcSetup(3, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Current
+  ledcSetup(4, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Fan
+  ledcSetup(14, 2000, 11);            // 11 bit resolution@ 2Khz  PWM for Brightness
+  ledcAttachPin(PWM_V, 0);
+  ledcAttachPin(PWM_I, 3);
+  ledcAttachPin(FAN_PIN, 4);
+
+#ifdef DISPLAY_IS_LCD
+  ledcAttachPin(TFT_BL, 14);
+#endif
 
 #ifdef FET_EXTENSION
+  Console4.printf("Initializing FET_Ext \n");
   pcf8574.pinMode(P0, OUTPUT);
   pcf8574.pinMode(P1, OUTPUT);
   pcf8574.pinMode(P2, OUTPUT);
@@ -22,24 +68,23 @@ void setup()
   pcf8574.pinMode(P7, INPUT);
 #endif
 
-
-#ifdef BLUETOOTH
-  SerialBT.begin(DEVICE_NAME);
-#endif
-
+#ifdef ROTARY
+  Console4.printf("Initializing ROT \n");
   rotaryEncoder.begin();
-
-  rotaryEncoder.setup(
+  rotaryEncoder.setup
+  (
     [] { rotaryEncoder.readEncoder_ISR(); },
-    [] { rotary_onButtonClick(); });
+    [] { rotary_onButtonClick(); }
+  );
 
   //set boundaries and if values should circle or not
   //in this example we will set possible values between 0 and 1000;
-  bool circleValues = true;
   rotaryEncoder.setBoundaries(-10000, 10000, true); //minValue, maxValue, circleValues true|false (when max go to min and vice versa)
   rotaryEncoder.setEncoderValue(0);
   rotaryEncoder.disableAcceleration();
+#endif
 
+  Console4.printf("Initializing ADC \n");
 #ifdef ADC_IS_ADS1115
   // Settings for ADC
   if (not adc.init())
@@ -51,22 +96,13 @@ void setup()
   }
 #endif
 
-  // Settings for PWM  (Usage: ledcWrite(channel, dutycycle);
-  ledcSetup(0, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Voltage
-  ledcSetup(3, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Current
-  ledcSetup(14, 2000, 11);            // 11 bit resolution@ 2Khz  PWM for Brightness
-  ledcSetup(4, 2000, 11);             // 11 bit resolution@ 2Khz  PWM for Fan
-  ledcAttachPin(PWM_V, 0);
-  ledcAttachPin(PWM_I, 3);
-  ledcAttachPin(FAN_PIN, 4);
-  ledcAttachPin(TFT_BL, 14);
+#ifdef ADC_IS_ESP
   analogSetWidth(11);               // 11Bit resolution
   analogSetAttenuation(ADC_0db);    // 0=0db (0..1V) 1= 2,5dB; 2=-6dB (0..2V); 3=-11dB  0.2..2.6V ~linear
+#endif
 
-  pinMode(ENA_PIN, OUTPUT);
-  digitalWrite(ENA_PIN, LOW); // enable DC/DC converter
-
-#ifdef BOARD_IS_TTGO
+  Console4.printf("Initializing DIS \n");
+#ifdef DISPLAY_IS_LCD
   tft.init();    // TTGO e_SPI TFT 240*135 pixel
 #define GFX_WIDTH 240
 #define GFX_HEIGHT 135
@@ -83,15 +119,15 @@ void setup()
   tft.print("Try connecting..  ");
 #endif
 
-#ifdef BOARD_IS_WEMOS
+#ifdef DISPLAY_IS_OLED
   // Initialising the UI will init the display too.
-  digitalWrite(16, LOW);    // set GPIO16 low to reset OLED
+  digitalWrite(I2C_RST, LOW);    // set GPIO16 low to reset OLED
   delay(50);
-  digitalWrite(16, HIGH);   // while OLED is running, must set GPIO16 in high
+  digitalWrite(I2C_RST, HIGH);   // while OLED is running, must set GPIO16 in high
   display.init();
   delay(1000);
   display.setColor(WHITE);
-  //display.setBrightness(100);
+  display.setBrightness(BRIGHTNESS / 21);
 #ifdef DISPLAY_REVERSED
   display.flipScreenVertically();
 #endif
@@ -101,10 +137,11 @@ void setup()
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.drawString(0, 0,  "Device Name: ");
   display.drawString(64, 0,  DEVICE_NAME);
-  display.drawString(0, 12, "Try connecting... ");
+  display.drawString(0, 12, "Try connect ");
   display.display();
 #endif
 
+  Console4.printf("Connecting to %s", WIFI_SSID);
   // Networking and Time
   WiFi.mode(WIFI_STA);
 
@@ -152,7 +189,7 @@ void setup()
     ArduinoOTA.setHostname(DEVICE_NAME);
     ArduinoOTA.begin();
 
-#ifdef BOARD_IS_WEMOS
+#ifdef DISPLAY_IS_OLED
     sprintf(charbuff, " Connected!"); display.drawString(60, 12, charbuff);
     sprintf(charbuff, "IP= %03d . %03d . %03d . %03d", ip[0], ip[1], ip[2], ip[3]); display.drawString(0, 24, charbuff);
     display.drawString(0, 36, "User name: ");
@@ -160,7 +197,7 @@ void setup()
     display.display();
 #endif
 
-#ifdef BOARD_IS_TTGO
+#ifdef DISPLAY_IS_LCD
     tft.print(" Connected!\n");
     sprintf(charbuff, "IP= %03d . %03d . %03d . %03d \nUser Name: ",  ip[0], ip[1], ip[2], ip[3]); tft.print(charbuff); tft.println(THINGER_USERNAME);
 #endif
@@ -183,29 +220,6 @@ void setup()
 
 
     // On/Off processing
-    thing["AhMode "] = [](pson & in, pson & out) {
-      if (in.is_empty())
-      {
-        in = persistence.AhMode ;
-      } else {
-        persistence.AhMode  = in;
-        switch (persistence.AhMode )
-        {
-          case 0:
-            Runtime = "Stop";
-            dashboard.Ahout = dashboard.Whout = persistence.CycleSamples = persistence.CycleVSum = persistence.CycleISum = persistence.CycleWSum = 0;
-            break;
-          case 1:
-            Runtime = "Run";
-            break;
-          case 2:
-            Runtime = "Daily";
-            break;
-        }
-      }
-      out = persistence.AhMode ;
-    };
-
     thing["reset_all"] << [](pson & in)
     { //not yet used: reset all values.
       if (in.is_empty())
@@ -266,6 +280,19 @@ void setup()
 #endif
 
     // Radio button style processing with sliders: Slide value is integer, so take value and issue description out of String array
+
+    thing["AhMode "] = [](pson & in, pson & out) {
+      if (in.is_empty())
+      {
+        in = persistence.AhMode ;
+      } else {
+        persistence.AhMode  = in;
+        Runtime = AhCycle_description[persistence.AhMode];
+        if (persistence.AhMode == 0) dashboard.Ahout = dashboard.Whout = persistence.CycleSamples = persistence.CycleVSum = persistence.CycleISum = persistence.CycleWSum = 0;
+      }
+      out = persistence.AhMode ;
+    };
+
     thing["CtrlMode"]  = [](pson & in, pson & out)
     {
       if (in.is_empty())
@@ -457,27 +484,20 @@ void setup()
   sprintf(charbuff, "\nNow is %s, %02d %s %04d %02d:%02d:%02d. Epoch =%10lu\n", DayName, Day, MonthName, Year, Hour, Minute, Second, Epoch);  Console4.println(charbuff);
   sprintf(charbuff, "%s, %02d %s %04d %02d:%02d:%02d", DayName, Day, MonthName, Year, Hour, Minute, Second);
 
-#ifdef BOARD_IS_WEMOS
+#ifdef DISPLAY_IS_OLED
   display.drawString(0, 48, charbuff);
   display.display();
 #endif
 
-#ifdef BOARD_IS_TTGO
+#ifdef DISPLAY_IS_LCD
   tft.println();
   tft.print(charbuff);
 #endif
 
   delay(2000);
-#ifdef BOARD_IS_TTGO
+#ifdef DISPLAY_IS_LCD
   tft.fillScreen(TFT_BLACK);
 #endif
-
-  // Initialisations.
-
-  /*
-    // persistence over Structure and memcpy.
-    EEPROM.commit();
-  */
 
 #ifndef THINGER
   // read/write persistence from EEPROM (Adress = 100...)
@@ -497,5 +517,6 @@ void setup()
     dashboard.SetVin = dashboard.ConVin = PANEL_MPP;
     lastADC_Vout = lastADC_Iout = 500;
   }
+  Console4.println("Ready to accept serial commands..." );
 }
 //end Setup

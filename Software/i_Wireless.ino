@@ -106,6 +106,8 @@ if (WiFi.status() != WL_CONNECTED)
 #else
     yield();
 #endif
+
+#if defined (THINGER)
     pson thing_property;
     //Periodically retrieve the PID parameters, comment out once the PID Paramters are stable
     thing.get_property ("thing_property", thing_property);
@@ -121,7 +123,17 @@ if (WiFi.status() != WL_CONNECTED)
     thing_property["voltageDelta"] = persistence.voltageDelta;
     thing_property["InitialVoltage"] = persistence.initial_voltage;
     thing_property["HourSamples"] = persistence.HourSamples;
+    if (I_value == 0)    // control parameters unitialized, set default values)
+    {
+    P_value = 2;
+    thing_property["_P_value"]= 2;
+    I_value = 2;
+    thing_property["_I_value"] = 2;
+    fractionVoc = 0.8;
+    thing_property["_fractionVoc"] = 0.8;
+    }
     thing.set_property("thing_property", thing_property, true);
     yield();
+#endif
   }
 }

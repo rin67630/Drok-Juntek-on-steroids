@@ -22,7 +22,7 @@ void data125mSRun()
 
   for  (byte n = 0; n < 5; n++)   // Vin measure
   {
-    int m = analogRead(ADC_VOUTin);
+    int m = analogRead(ADC_VIN);
     ADC_VinRaw += constrain( m, lastADC_Voutin - 2, lastADC_Voutin + 2); // eliminate spikes
     delay (2);
   }
@@ -72,7 +72,7 @@ void data125mSRun()
   dashboard.Iout = min( converted_IoutRaw, max(float(-0.05), (dashboard.SetVout - dashboard.Vout))) ;      // Current is voltage difference limited by Setpoint
   delta_current = dashboard.Iout - mem;
   mem = dashboard.Vout;
-  dashboard.Vout = converted_VoutRaw + (dashboard.Iout - dashboard.SetIout) / 20 + dashboard.Iout / 100;   // Voltage gets a small influence from current
+  dashboard.Vout = converted_VoutRaw + (dashboard.Iout - dashboard.SetIout) / 20.01 + dashboard.Iout / 100;   // Voltage gets a small influence from current
   delta_voltage = dashboard.Vout - mem;
   dashboard.Vin = 1.5 * dashboard.Vout - 3 * dashboard.Iout;
   dashboard.Iin = 0.8 * dashboard.Iout;
@@ -112,8 +112,8 @@ void data125mSRun()
   ledcWrite(4, PWM_Fan );      // PWM to fan control
   ledcWrite(0, PWM_SetVout);   // PWM to voltage control
   ledcWrite(3, PWM_SetIout);   // PWM to current control
-
 #endif  //not defined (UDP_SLAVE)
+
 } // end 125msRun
 
 
@@ -139,7 +139,6 @@ void data1SRun()
     }
   }
 #else
-
 
   // if not defined (UDP_SLAVE)
   // === ( Slower PWM Control )  ====
@@ -191,7 +190,7 @@ void data1SRun()
         // throttling power, no MPPT required.
         dashboard.ConVin = dashboard.SetVin;
       }
-      if (NewMinute && dashboard.ConVin >= dashboard.SetVin * 1.10) dashboard.ConVin = dashboard.SetVin; // Preventing latchups at high Vin.
+      if (NewMinute && dashboard.ConVin >= dashboard.SetVin * 1.09) dashboard.ConVin = dashboard.SetVin; // Preventing latchups at high Vin.
     }
     dashboard.ConVin = constrain(dashboard.ConVin, (dashboard.SetVin * 0.92), (dashboard.SetVin * 1.10));
   }
@@ -234,20 +233,6 @@ void data1SRun()
 
   // === ( Dashboard and Reporting)  ====
   dashboard.Wout = dashboard.Vout * dashboard.Iout;
-  persistence.HourVSum += dashboard.Vout;
-  persistence.HourISum += dashboard.Iout;
-  persistence.HourWSum += dashboard.Iout * dashboard.Vout;
-  persistence.HourSamples ++;
-  Ahout = persistence.HourISum / 3600;
-  Whout = persistence.HourWSum / 3600;
-  Vavgout = persistence.HourVSum / persistence.HourSamples;
-  if (persistence.AhMode > 0)
-  {
-    persistence.CycleVSum += dashboard.Vout;
-    persistence.CycleISum += dashboard.Iout;
-    persistence.CycleWSum += dashboard.Iout * dashboard.Vout;
-    persistence.CycleSamples ++;
-  }
 
   if (fabs(delta_current) > 50) raw_internal_resistance = fabs(delta_voltage / delta_current); // Evaluate battery internal resistance (r = dv / di) if deltaCurrent > 50mA.
   dashboard.load_internal_resistance += (raw_internal_resistance - dashboard.load_internal_resistance) / 100;
