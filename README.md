@@ -1,7 +1,7 @@
 # Drok&Juntek on steroids.
 Extend the possibilities of cheap digital power supplies with an ESP32 WiFi module
 
-Juntek (aka MingHe) and Drok (maybe others) sell some interesting cheap programmable buck converter modules e.g.:
+Juntek (aka MingHe) and Drok (maybe others e.g Ming-He) sell some interesting cheap programmable buck converter modules e.g.:
 - DPS3806         (60V/6A boost/buck converter) https://www.aliexpress.com/item/1005001591485527.html
 - Buck3603        (36V/3A buck converter) https://www.aliexpress.com/item/32872687512.html
 - Drok low Power  (60V/8A buck converter) https://www.aliexpress.com/item/32862110549.html
