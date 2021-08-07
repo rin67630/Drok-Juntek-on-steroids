@@ -17,9 +17,11 @@ MoToButtons Buttons( buttonPins, buttonCount, 130, 5000 ); //  130ms debounce. 5
 SSD1306Wire display(0x3c, I2C_SCL, I2C_SDA);                  //OLED 128*64 soldered
 #endif
 
+
 #ifdef CONTR_IS_HELTEC
 SSD1306Wire display(0x3c, SDA_OLED, SCL_OLED, RST_OLED, GEOMETRY_128_64);
 #endif
+
 
 #ifdef CONTR_IS_TTGO
 TFT_eSPI tft = TFT_eSPI();       // Invoke custom library

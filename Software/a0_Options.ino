@@ -1,15 +1,14 @@
 // *** Component selection ***
 // Select Converter type, Controller type, Display type, ADC type
 
-#define CONTR_IS_TTGO     //_IS_HELTEC, _IS_WEMOS; _IS_TTGO                      Choice of ESP controller boards
+#define CONTR_IS_HELTEC   //_IS_HELTEC, _IS_WEMOS; _IS_TTGO                      Choice of ESP controller boards
 // N.B. Compile sketch with following board settings: 
 //- for option Wemos:          Wemos Lolin32
 //- for option TTGO:           TTGO T1 
 //- for option Heltec LoRa:    Heltec WiFi Lora32  (Not V2 !) 
-#define DISPLAY_IS_LCD      //_IS_OLED, _IS_LCD, _IS_NONE                         Choice of display
+#define DISPLAY_IS_OLED     //_IS_OLED, _IS_LCD, _IS_NONE                         Choice of display
 #define ADC_IS_ADS1115     //_IS_INA226, _IS_ADS1115, _IS_ESP, _IS_SIMULATED          Choice of ADC used
-#define CONV_IS_D6012    //_IS_D6008, _IS_D6012,_IS_J3603, IS_J3806, _IS_SIMULATED  Choice of converter motherboards
-
+#define CONV_IS_J3603
 
 // *** List of available battery header files ***, uncomment accordingly
 //#include "GEL12-12Ah.h"
@@ -21,8 +20,7 @@
 
 //  *** Hardware options ***
 #define SLEEP_US  300000
-#define DISPLAY_REVERSED
-#define DISPLAY_TILTED      // works only for TTGO TFT display.
+//#define DISPLAY_REVERSED
 #define BRIGHTNESS 2048     // PWM value for default brightness
 #define ROTARY              // Uncomment if rotary encode is not present
 //#define FET_EXTENSION     // Extension board with 4 FET and ADC 1115
@@ -59,6 +57,13 @@
 #include "J3603.h"
 #define DEVICE_NAME      "Steroids3603"
 #define THINGER_USERNAME "SoafPower1"      // "SoafPower1  SoftPower1" 
+#define WRITE_BUCKETS    // comment out. if this is the second device)
+#endif
+
+#ifdef CONV_IS_J3806             //Juntek B3603 small DC-DC converter
+#include "J3806.h"
+#define DEVICE_NAME      "SteroidsADS"
+#define THINGER_USERNAME "SoftPower1"      // "SoafPower1  SoftPower1" 
 #define WRITE_BUCKETS    // comment out. if this is the second device)
 #endif
 

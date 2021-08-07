@@ -13,7 +13,7 @@
 
 // *** Optional libraries ***
 #ifdef CONTR_IS_HELTEC
-#include <heltec.h>
+#include "heltec.h"
 #include "Heltec_LoRa.h"  // from libraries/SoftPower_HAL_Files
 #endif
 
@@ -178,7 +178,7 @@ float Vavgout;          //Avg voltage in hour
 // ***Thinger.io Dashboard***
 String CtrlMode_description[] = {"Manu ", "PVFx ", "MPPT "}; // for dashboard.CtrlMode
 String ChrgPhase_description[] = {"NIGH", "RECO", "BULK", "PANL", "ABSO", "FLOA", "EQUA", "OVER", "DISC", "PAUS", "NOBA", "NOPA", "EXAM"}; // for dashboard.ChrgPhase
-String AhCycle_description[] = {" Stop ", "  Run ", "Daily "}; // for persistance.AhMode
+String AhCycle_description[] = {" Stop  ", "  Run  ", "Daily  "}; // for persistance.AhMode
 
 struct dashboard {
   // Measures

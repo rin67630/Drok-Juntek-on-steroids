@@ -167,7 +167,7 @@ void menuRun()
     case '!': //Unique (One shot)
       serialPeriodicity = '!';
       break;
-    case '#': //Stop Reports
+    case '#': //Completely Stop Reports (also Events and Summary)
       serialPeriodicity = '0';
       break;
     case 'e': //Toggle Events
@@ -177,9 +177,6 @@ void menuRun()
     // ***Periodical Reports/Plots**
     case 'E':  //Energy Plot
       serialPage = 'E';
-      break;
-    case 'V':  //Variables (PWM, ADC) tracking
-      serialPage = 'V';
       break;
   } //end switch (inbyte)
   inbyte = 0 ;

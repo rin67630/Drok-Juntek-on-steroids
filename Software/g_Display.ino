@@ -28,12 +28,15 @@ void displayRun()
           break;
         case 3:
           dashboard.SetVout += float(action * abs(action)) / 100;
+  
           break;
         case 4:
           dashboard.SetIout += float(action * abs(action)) / 100;
+          
           break;
         case 5:
           dashboard.SetVin += float(action * abs(action)) / 100;
+          
           break;
         default:
           Console4.println ("no set point here!");
@@ -260,7 +263,7 @@ void displayRun()
       display.setFont(ArialMT_Plain_10);
       sprintf(charbuff, "%5.2f Vi", dashboard.SetVin); display.drawString(0, 0, charbuff);
       sprintf(charbuff, "%5.2f Vo", dashboard.SetVout);  display.drawString(42, 0, charbuff);
-      sprintf(charbuff, "%5.2f A", dashboard.SetIout); display.drawString(88, 0, charbuff);
+      sprintf(charbuff, "%5.2f Ao", dashboard.SetIout); display.drawString(88, 0, charbuff);
       display.drawString(45, 16, "Vi");  display.drawString(110, 16, "Vo"); display.drawString(45, 36, "Ao"); display.drawString(112, 36, "W");
       display.setFont(ArialMT_Plain_16);
       sprintf(charbuff, "%05.2f", dashboard.Vin);  display.drawString(0, 12, charbuff);
