@@ -40,7 +40,11 @@ Since they have some difference in the left connector, I have used jumpers.
 
 The blue part of the schematic are a provision for extensions, you may omit these parts.
 
-
+## PCB
+a PCB is in preparation (Thanks to TechColab).
+![image](https://user-images.githubusercontent.com/14197155/130510180-c66f6f73-e49c-43df-86e5-8db4cc6019c0.png)
+It will ba universal for all supported DC-DC converters.
+Stay tuned...
 
 ## Schematic diagram
 
