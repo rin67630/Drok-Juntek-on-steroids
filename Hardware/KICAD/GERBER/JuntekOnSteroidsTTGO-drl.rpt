@@ -1,0 +1,26 @@
+Drill report for D:\5_Tinker\DrokJuntekSteroids\Drok-Juntek-on-steroids-main\Hardware\KiCAD\JuntekOnSteroidsTTGO.kicad_pcb
+Created on 26/08/2021 20:41:02
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'JuntekOnSteroidsTTGO-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.400mm  0.0157"  (4 holes)
+    T2  0.700mm  0.0276"  (18 holes)
+    T3  0.750mm  0.0295"  (4 holes)
+    T4  0.800mm  0.0315"  (16 holes)
+    T5  1.000mm  0.0394"  (93 holes)
+
+    Total plated holes count 135
+
+
+Drill file 'JuntekOnSteroidsTTGO-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+
+    Total unplated holes count 0
