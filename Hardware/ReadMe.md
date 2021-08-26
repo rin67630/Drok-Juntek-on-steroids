@@ -26,7 +26,6 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 ![image](https://user-images.githubusercontent.com/14197155/116315430-ccfac000-a7b0-11eb-8aca-cfaca9a70dd4.png)
 
 
-
 ## Proto Wiring
 There is no PCB yet, it's relativly easy to wire the adapter to a prototyping board:
 ### Top view (component side)
@@ -48,11 +47,7 @@ On the west side w have 2 header connectors with the analog pins these are optio
 
 
 ## Schematic diagram
-
-you may find the editable schematic in the last version always here:   
-https://oshwlab.com/lazlo.lebrun/juntek-on-steroids   
-(please use the last page only, the others are obsolete now...)  
-You have a PDF Schematic_Juntek on Steroids_2021-04.27.pdf in the Hardware folder as well.
+![image](https://user-images.githubusercontent.com/14197155/130955778-72a9064b-482d-49bb-830b-b4cc7b4a0321.png)
 
 
 # V1.0 
