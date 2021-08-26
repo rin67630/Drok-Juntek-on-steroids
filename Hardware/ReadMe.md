@@ -32,11 +32,8 @@ There is no PCB yet, it's relativly easy to wire the adapter to a prototyping bo
 ### Top view (component side)
 ![image](https://user-images.githubusercontent.com/14197155/116315567-ffa4b880-a7b0-11eb-81fa-959041c7d8f0.png)
 
-I have put much attention to avoid wire crossings, so it should be easy to make a PCB, but i just did not yet enter into that realm.
 The prototype is universal and fits Juntek and Drok DC/DC conveters.
 Since they have some difference in the left connector, I have used jumpers.
-
-The blue part of the schematic are a provision for extensions, you may omit these parts.
 
 ## PCB
 a PCB is now on the final stage... (Thanks to TechColab).
