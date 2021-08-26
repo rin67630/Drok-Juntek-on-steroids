@@ -28,12 +28,12 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 
 
 ## Proto Wiring
-There is no PCB yet, it's relativly easy to wire the adapter to a prototyping board:
+It's relativly easy to wire the adapter to a prototyping board:
 ### Top view (component side)
 ![image](https://user-images.githubusercontent.com/14197155/116315567-ffa4b880-a7b0-11eb-81fa-959041c7d8f0.png)
 
-The prototype is universal and fits Juntek and Drok DC/DC conveters.
-Since they have some difference in the left connector, I have used jumpers.
+The prototype is universal and fits Juntek/MingHe  and Drok DC/DC conveters.
+Since they have some slight difference in the left connector, I have used jumpers.
 
 ## PCB
 a PCB is now on the final stage... (Thanks to TechColab).
