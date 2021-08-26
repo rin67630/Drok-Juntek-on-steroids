@@ -1,12 +1,13 @@
 
-This folder contains the schematics and hardware description of my Drok-Juntek-on-steroids solution.   
+This folder contains the schematics and hardware description of my Drok-Juntek-on-steroids solution. 
 
+# History
 On a first approach V1.0, I have used a passive circuitry with resistors and capacitors to adapt the signal levels to the ADCs of the ESP32 and -to a certain extent- compensate the intrinsic deficits of the ESP32 ADCs.  
-(You can take a look at the remaining V1.0 description at the bottom of This file.) 
+(You can take a look at the ReadMeV1.md if you are interested)
 
 # V2.0 
 
-Finally with V2.0 I decided to use an I2C 16bit, 4 channel ADC  ADS1115 module to replace the very low quality ADCs of the ESP32..  
+Finally with V2.0 I decided to use an I2C 16bit, 4 channel ADC  ADS1115 module to replace the very low quality ADCs of the ESP32.    
 With this module, conveniently placed under the TTGO, everything becomes much easier.
 This new solution uses less components, is much more precise, factory calibrated and the measuring ranges can be determined by software.
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators. 
