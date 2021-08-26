@@ -51,6 +51,6 @@ On the west side w have 2 header connectors with the analog pins these are optio
 
 
 # V1.0 
-see ReadMeV1.md
+V1.0 is obsolete, that old version used the ESP32 only as ADC and was REALLY inaccurate, see ReadMeV1.md
 
 Enjoy!
