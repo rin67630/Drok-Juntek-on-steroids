@@ -11,18 +11,34 @@ With this module, conveniently placed under the TTGO, everything becomes much ea
 This new solution uses less components, is much more precise, factory calibrated and the measuring ranges can be determined by software.
 The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators. 
 
- ## Bill of materials
+ ## Bill of materials Off Board
 
 - Juntek DSP 3606 / Drok 
 - TTGO ESP32 TFT board
 - ADS1115 external ADC board
 - 4 x 6 cm prototyping board
-- pin male / female pin headers
-- 1 x 100 k resistor
 - 1 x 3,3MM resistor to measure up to 58V Vin for Drok, 2k resistor to measure Vin for JuntekD3806, nothing for Juntek B3603.
-- 2 x 68 k resistors
-- 2 x 1 k resistors 
-- 1 x 470uF 16V chem capacitor **
+
+ ## Bill of materials On Board
+
+- C7 	1	yes	470µ	Capacitor_THT:CP_Radial_D8.0mm_P3.50mm
+- C1 C2 C3 C4 C5 C6 C8 	7	yes	0.1µ	Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm
+		Ref		     Qtty Required  Description
+- J1 J2 	      2	yes	To PSU host board	Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical
+- J10 	        1	yes	ADS1115	Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical
+- J11 J12 J61 	3	no	patch	Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
+- J21 	        1	no	patch	Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical
+J- 22 	        1	no	patch	Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
+- J30 	        1	optional	Expansion1	Connector_PinHeader_2.54mm:PinHeader_1x21_P2.54mm_Horizontal
+- J4 J5 	      2	yes	ESP32-TFT	Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical
+- J6 	         1	mostly	feedback	Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal
+- J7 	         1	yes	I2C	Connector_JST:JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical
+- R11 R12 	    2		68k/zero	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+- R15 	        1		2k2/none	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+- R13 R14 R16 R17 R18 	5		1k/zero	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+- R20 	        1	mostly	100k/none	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
+
+![image](https://user-images.githubusercontent.com/14197155/130932996-c2326ef9-e03d-4b74-bf2a-86ed12355a69.png)
 
 ## Header pinouts (comparison between Juntek / Drok)
 ![image](https://user-images.githubusercontent.com/14197155/116315430-ccfac000-a7b0-11eb-8aca-cfaca9a70dd4.png)
@@ -61,49 +77,6 @@ You have a PDF Schematic_Juntek on Steroids_2021-04.27.pdf in the Hardware folde
 
 
 # V1.0 
-this was my first design which is now deprecated.
-
-The design uses standard buck converters, an ESP32 TTGO TFT module, simple prototyping boards and a few resistors/condensators.
-
- ## Bill of materials
- 
-- Juntek DSP 3606
-- TTGO ESP32 TFT board
-- 4 x 6 cm prototyping board
-- pin male / female pin headers
-- 3 x 100 k resistors
-- 3 x 180 k resistors
-- 2 x 68 k resistors
-- 3 x 5.6 M resistors
-- 1 x 220 resistor **
-- 1 x 3.9 M (behind the Juntek module to sense Vin)
-- 4 x 330nF tantal capacitors **
-- 1 x 470uF 16V chem capacitor **
-- 1 x 47uF 16V chem capacitor **
-
-The components marked (**) are not critical +- 50% are possible.
-
-## Proto wiring
-![image](https://user-images.githubusercontent.com/14197155/111206570-d34e2780-85c8-11eb-8fb4-a482fadf0cb9.png) 
-![image](https://user-images.githubusercontent.com/14197155/111217876-59bd3600-85d6-11eb-8595-dd1af2165e28.png)
-
-(the PCB layout is simple, even single layer, but i never made a Gerber file, if someone would like to contribute...)  
-n.b.: *you may have noticed an apparent discrepancy between the jumper settings on the prototype pictures and the jumper settings in the schematic diagram:
-the difference is only that I had to move the pin connectors by one 2.54 step upwards for mechanical reasons and did not want to redraw the diagram accordingly.  
-
-## Schematic diagram
-https://github.com/rin67630/Drok-Juntek-on-steroids/blob/main/Hardware/Schematic_Juntek%20on%20Steroids_2021-03-10.pdf
-
-The adapter boards will be slightly different for Drok and Juntek since the pinout varies.  
-*that variants to come soon, did not test yet*
-
-Other ESP32 modules can be used, a variant with a BW OLED module and a variant with a HELTEC OLED + LoRa module are  planned, just to give an outlook of the conceptual flexibility.  
-The ESP32's ADC are really bad and the simple solution with a few resistors/condensators works, but are stained with +-50mV and +- 50mA error range.
-A more precise version with a separate ADC will be provided, requiring however mor components.
+see ReadMeV1.md
 
 Enjoy!
-
-**Last but not least:**
-I am giving very detailed explanations and pictures on how to solder Drok-Juntek-on-steroids on a protoyping board. It got now very close to become a full blown PCB.  
-I just have not time to learn how to handle a PCB CAD and must concentrate on software.  
-It would be GREAT, if someone familiar with KiCAD or other ECAD designers would contribute...
