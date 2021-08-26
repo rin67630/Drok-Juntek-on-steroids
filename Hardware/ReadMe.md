@@ -20,24 +20,6 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 - 1 x 3,3MM resistor to measure up to 58V Vin for Drok, 2k resistor to measure Vin for JuntekD3806, nothing for Juntek B3603.
 
  ## Bill of materials On Board
-
-- C7 	1	yes	470µ	Capacitor_THT:CP_Radial_D8.0mm_P3.50mm
-- C1 C2 C3 C4 C5 C6 C8 	7	yes	0.1µ	Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm
-		Ref		     Qtty Required  Description
-- J1 J2 	      2	yes	To PSU host board	Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical
-- J10 	        1	yes	ADS1115	Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical
-- J11 J12 J61 	3	no	patch	Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical
-- J21 	        1	no	patch	Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical
-J- 22 	        1	no	patch	Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical
-- J30 	        1	optional	Expansion1	Connector_PinHeader_2.54mm:PinHeader_1x21_P2.54mm_Horizontal
-- J4 J5 	      2	yes	ESP32-TFT	Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical
-- J6 	         1	mostly	feedback	Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal
-- J7 	         1	yes	I2C	Connector_JST:JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical
-- R11 R12 	    2		68k/zero	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
-- R15 	        1		2k2/none	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
-- R13 R14 R16 R17 R18 	5		1k/zero	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
-- R20 	        1	mostly	100k/none	Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal
-
 ![image](https://user-images.githubusercontent.com/14197155/130932996-c2326ef9-e03d-4b74-bf2a-86ed12355a69.png)
 
 ## Header pinouts (comparison between Juntek / Drok)
