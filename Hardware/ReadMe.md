@@ -41,11 +41,11 @@ The PCB is designed universal for all supported DC-DC converters.
 ![image](https://user-images.githubusercontent.com/14197155/130929363-225f5379-17b6-4cc5-97d8-0bba220f7ccd.png)
 ![image](https://user-images.githubusercontent.com/14197155/130929512-58dedddb-3144-4b42-99c7-8810c854795b.png)
 
-![image](https://user-images.githubusercontent.com/14197155/131017709-7eb6582d-833c-48ec-917c-8d5c3f3cf81f.png)
-n.b. The 470μF condensator is wired horizontal, we did not have a KiCAD library for that.
-The patch fields are shown with pins, normally you just will wire a few wires directly.
-On the west side w have 2 header connectors with the analog pins these are optionaly populated and more testing points to hook probes.
-![image](https://user-images.githubusercontent.com/14197155/131017068-53a82627-978d-4b63-86de-4a6470305f35.png)
+![image](https://user-images.githubusercontent.com/14197155/131092873-4c6a6fc9-2fd5-4816-9f38-fff8db7187c2.png)
+n.b. The 470μF condensator is wired horizontal, we did not have a KiCAD library for that, so it is hot rendered.
+The patch fields are shown empty, normally you just will wire a few wires directly but you may poulate them with 90° headers and use prototype jumpers.
+On the west side w have 2 header connectors with the analog and control pins, useful for hooking measuring probes.
+![image](https://user-images.githubusercontent.com/14197155/131092820-b1ae296f-d175-41c3-814f-16ed135e60da.png)
 
 
 
