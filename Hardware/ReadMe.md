@@ -32,7 +32,9 @@ To a certain extend it is doable with regular female headers too:
 On the ADS1115 solder the male pin headers normally, then remove the plastic part of them and cut the pins 5mm shorter.  
 That way, the ADS1115 PCB sits directly on the female headers. 
 Solder the female headers of the ESP32 with some space between the board and the plastic.  
-That lets enough room to piggy-back both modules.
+That lets enough room to piggy-back both modules.  
+![image](https://user-images.githubusercontent.com/14197155/131211006-c26b0ab6-445c-432b-9cc5-718face80436.png)
+
 
 A low profile header / pins for the ADC1115 were the king solution, they are however rare and expensive.
 
