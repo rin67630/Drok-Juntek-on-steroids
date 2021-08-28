@@ -26,10 +26,15 @@ The design uses standard buck converters, an ESP32 TTGO TFT module, simple proto
 ## Header pinouts (comparison between Juntek / Drok)
 ![image](https://user-images.githubusercontent.com/14197155/116315430-ccfac000-a7b0-11eb-8aca-cfaca9a70dd4.png)  
 
-If you can, order female pin headers with long pins. The ESP32's socket must be soldered higher than that one of the ADS1115.
-To a certain extend it is doable with regular female headers too: On the ADS1115 solder the male pin headers normally, then remove  
-the plastic part of them and cut the pins 5mm shorter so the ADS1115 PCB sits directly on the female headers. 
-Solder the female headers of the ESP32 with some space between the board and the plastic.
+**N.B.** If you can, order female pin headers with long pins. The ESP32's socket must be soldered higher than the one of the ADS1115.  
+
+To a certain extend it is doable with regular female headers too:  
+On the ADS1115 solder the male pin headers normally, then remove the plastic part of them and cut the pins 5mm shorter.  
+That way, the ADS1115 PCB sits directly on the female headers. 
+Solder the female headers of the ESP32 with some space between the board and the plastic.  
+That lets enough room to piggy-back both modules.
+
+A low profile header / pins for the ADC1115 were the king solution, they are however rare and expensive.
 
 
 ## Proto Wiring
