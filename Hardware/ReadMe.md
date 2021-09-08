@@ -65,8 +65,8 @@ On the west side w have 2 header connectors with the analog and control pins, us
 ![image](https://user-images.githubusercontent.com/14197155/131092820-b1ae296f-d175-41c3-814f-16ed135e60da.png)
 ![image](https://user-images.githubusercontent.com/14197155/132552217-7315f0ca-cd77-49a3-a670-ff380742b1ad.png)
 ![image](https://user-images.githubusercontent.com/14197155/132552334-9db85ba2-2d7a-4efa-84c2-afa636e3be88.png)
-Who wants raw PCBs should send me his (her) address at lazlo.lebrun<you know what to insert>gmail.com,  
-I would appreciate a participation of 1€ per PCB and the postage cost (2€ for Europe), i'll mail you the PayPal address in return.
+Who wants raw PCBs should send me his (her) address at lazlo.lebrun < you know what to insert > gmail.com,  
+I would appreciate a participation of 1€ per PCB and the postage cost (2€ for Europe), i'll mail you the different PayPal address in return.
 
 
 ## Schematic diagram
