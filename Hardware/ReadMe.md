@@ -34,6 +34,8 @@ That way, the ADS1115 PCB sits directly on the female headers.
 Solder the female headers of the ESP32 with some space between the board and the plastic.  
 That lets enough room to piggy-back both modules.  
 ![image](https://user-images.githubusercontent.com/14197155/131211006-c26b0ab6-445c-432b-9cc5-718face80436.png)
+![image](https://user-images.githubusercontent.com/14197155/132551939-ee6ab07b-3cdc-4aa2-9972-35caa0235e09.png)
+
 
 An easier solution is to procure long male pin headers for the TTGO:
 https://www.ebay.de/itm/323404971458?var=512467637501
