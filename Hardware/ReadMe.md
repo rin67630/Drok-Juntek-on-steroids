@@ -63,6 +63,11 @@ n.b. The 470μF condensator is wired horizontal, we did not have a KiCAD library
 The patch fields are shown empty, normally you just will wire a few wires directly but you may poulate them with 90° headers and use prototype jumpers.
 On the west side w have 2 header connectors with the analog and control pins, useful for hooking measuring probes.
 ![image](https://user-images.githubusercontent.com/14197155/131092820-b1ae296f-d175-41c3-814f-16ed135e60da.png)
+![image](https://user-images.githubusercontent.com/14197155/132552217-7315f0ca-cd77-49a3-a670-ff380742b1ad.png)
+![image](https://user-images.githubusercontent.com/14197155/132552334-9db85ba2-2d7a-4efa-84c2-afa636e3be88.png)
+Who wants raw PCBs should send me his (her) address at lazlo.lebrun<you know what to insert>gmail.com,  
+I would appreciate a participation of 1€ per PCB and the postage cost (2€ for Europe), i'll mail you the PayPal address in return.
+
 
 ## Schematic diagram
 ![image](https://user-images.githubusercontent.com/14197155/131208408-491fee95-9c39-4e8e-adb6-a0c7df7e2d65.png)
