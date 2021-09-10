@@ -22,7 +22,7 @@ On the right side, the connector provides GND and 5V at ~200mA.
 
 I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.  
 ![image](https://user-images.githubusercontent.com/14197155/114783655-54d8d700-9d7a-11eb-900d-9af7a66a8807.png)  
-![image](https://user-images.githubusercontent.com/14197155/124740190-d7f16f80-df1a-11eb-9e05-a38282b05a60.png)  
+![image](https://user-images.githubusercontent.com/14197155/132882762-a374d3fc-63e4-4b76-a205-882f3b6fcd99.png)
 
 The BOM for the upgrade cost less than 20$ (the ESP TTGO, an ADS1115 module, a prototyping board, some pin headers, a few resistors and condensators...)  
 
