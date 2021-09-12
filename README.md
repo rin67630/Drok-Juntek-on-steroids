@@ -20,9 +20,9 @@ give full internet control and provide tons of features...
 Drok and Juntek are using the same analog control principle:  on the left side, the connector gets two PWM control inputs (voltage and current) and deliver two corresponding analog control feedback outputs all in the range 0..2,1V.  
 On the right side, the connector provides GND and 5V at ~200mA.  
 
-I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter.  
+I used a TTGO ESP32 with an integrated TFT color display plugged onto a 6x8cm prototyping board as an adapter:   
 ![image](https://user-images.githubusercontent.com/14197155/114783655-54d8d700-9d7a-11eb-900d-9af7a66a8807.png)  
-Here the version with a PCB on a Drok6012 with input and load current probes  
+Here the version with a PCB on a Drok6012 with input and load current probes and a rotary encoder on the extension port:   
 ![image](https://user-images.githubusercontent.com/14197155/132982230-2aaded2d-4a99-4792-8ebf-598a4e523c8b.png)
 
 The BOM for the upgrade cost less than 20$ (the ESP TTGO, an ADS1115 module, a prototyping board, some pin headers, a few resistors and condensators...)  
