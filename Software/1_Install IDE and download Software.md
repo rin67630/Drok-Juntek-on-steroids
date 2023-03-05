@@ -17,8 +17,8 @@ You need
 You can download all the files from the main page of Drok-Juntek-on-steroids upon clicking on the green Code button and selecting "download Zip".    
 This will save a file Soft-Power-MPPT-main.zip.  
 From that compressed file, extract the folder "Software" and copy it into your Arduino working space, if you and modified it, it's Documents/Arduino  
-Rename that folder SoftPowerMPPT.  
-You will now find the project in File/Sketchbook/SoftPowerMPPT and after starting, it you will find all tabs present.  
+Rename that folder ESP32_SoftPower_MULTI_V3.  
+You will now find the project in File/Sketchbook/ESP32_SoftPower_MULTI_V3 and after starting, it you will find all tabs present.  
 
 If later you just need to update some tabs individually, you just can copy the content directly into the Arduino IDE.
 
