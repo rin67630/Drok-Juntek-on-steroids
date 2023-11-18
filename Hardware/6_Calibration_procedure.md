@@ -16,7 +16,7 @@ The Juntek/Drok family of digital DC/DC converters are controlled ovr a 8-pin he
 The translation ratios depend on the respective DC/DC converter. Some ranges have a bias. I have recorded all values in header files located in libraries/SoftPower_HAL_Files:
 
     D6008.h
-    D6812.h
+    D6012.h (D6012_PCB.h)
     J3603.h
     J3806.h
 
