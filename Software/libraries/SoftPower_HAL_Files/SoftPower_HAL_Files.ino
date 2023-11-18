@@ -7,7 +7,7 @@ These files are used to adapt different hardware configuration to the common Sof
 SoftPower is designed in a flexible way in order to support different hardware components:
 
 *** DC/DC converters ***
-- Drok 6012  -> D6012.h
+- Drok 6012  -> D6012.h   now D6012_PCB.h
 - Drok 6008  -> D6008.h
 - Juntek B3603  -> J3603.h
 - Juntek J3806  -> J3806.h
