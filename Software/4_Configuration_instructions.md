@@ -8,7 +8,7 @@ If you are not familiar with the code, *this (and Dashboard.josn) are the only f
 If you have several devices, change the HOST_NAME and let it be "JuntekDrokSteroids", which must be matching the device name that you created at Thinger.io
 The HOST_NAME also matches the device content of the default dashboard.  
 
-Begin with populating your credentials
+Begin with populating your credentials in the file Credentials.h
 #### WiFi credentials
  
 Enter your Wi-Fi credentials 
