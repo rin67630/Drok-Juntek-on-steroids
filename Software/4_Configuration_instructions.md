@@ -21,7 +21,7 @@ Enter your Wi-Fi credentials
 ´´´
 
 
-#### Thinger.io credentials
+#### Thinger.io credentials (you may skip if you don't use thinger.io)
 The next step will be entering your credentials at Thinger.io:
 ´´´
 #define THINGER_USERNAME           "JuntekDrokSteroids"       
